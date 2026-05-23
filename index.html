@@ -1,0 +1,2218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Magani Restaurant</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bronze: #b08d57;
+    --bronze-light: #d4b07a;
+    --bronze-pale: #e8d5b0;
+    --dark: #0f0f0d;
+    --dark-2: #181815;
+    --dark-3: #222220;
+    --dark-4: #2c2c29;
+    --dark-5: #383834;
+    --text: #e8e4da;
+    --text-mid: #a09890;
+    --text-dim: #6a6460;
+    --border: rgba(176,141,87,0.45);
+    --border-strong: rgba(176,141,87,0.75);
+  }
+
+  /* LIGHT MODE */
+  :root.light {
+    --bronze: #8a6932;
+    --bronze-light: #a07840;
+    --bronze-pale: #c9a96e;
+    --dark: #f7f3ec;
+    --dark-2: #f0ebe0;
+    --dark-3: #e8e1d4;
+    --dark-4: #ddd6c8;
+    --dark-5: #d0c8b8;
+    --text: #1c1a16;
+    --text-mid: #4a4438;
+    --text-dim: #7a7060;
+    --border: rgba(138,105,50,0.45);
+    --border-strong: rgba(138,105,50,0.72);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* HEADER — integrado, fluye con la página */
+  header {
+    background: var(--dark);
+    padding: 2.5rem 1.5rem 2.5rem;
+    text-align: center;
+    position: relative;
+    border-bottom: 2px solid var(--border);
+  }
+  header::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--bronze);
+    margin: 1.5rem auto 0;
+    opacity: 0.6;
+  }
+  .header-pretitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: clamp(0.6rem, 2.8vw, 0.85rem);
+    letter-spacing: clamp(0.15em, 1.5vw, 0.45em);
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 1.5rem;
+    opacity: 0.85;
+    white-space: nowrap;
+  }
+  .header-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 12vw, 6rem);
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: 0.22em;
+    line-height: 0.9;
+    display: block;
+  }
+  .header-restaurante {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 0.78rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    margin-bottom: 1.2rem;
+    opacity: 0.8;
+  }
+  .header-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    font-size: 0.82rem;
+    letter-spacing: 0.6em;
+    color: var(--text-mid);
+    margin-top: 0.9rem;
+    text-transform: uppercase;
+  }
+  .header-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.2rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--bronze-light);
+    opacity: 0.75;
+  }
+  .header-location::before, .header-location::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 0.5px;
+    background: var(--bronze);
+    opacity: 0.5;
+  }
+
+  /* LANG TOGGLE — integrado en el header */
+  .lang-bar {
+    background: var(--dark);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0.85rem 1.25rem;
+    gap: 0.2rem;
+    border-bottom: 2px solid var(--border);
+  }
+  .lang-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-right: 0.5rem;
+  }
+  .lang-btn {
+    background: none;
+    border: 0.5px solid var(--text-dim);
+    color: var(--text-dim);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    padding: 0.45rem 0.9rem;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-transform: uppercase;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .lang-btn.active {
+    border-color: var(--bronze);
+    color: var(--bronze-light);
+    background: rgba(176,141,87,0.08);
+  }
+  .lang-btn:hover:not(.active) {
+    border-color: var(--text-mid);
+    color: var(--text-mid);
+  }
+
+  /* FILTER BAR */
+  .filter-bar {
+    background: var(--dark-2);
+    border-bottom: 2px solid var(--border);
+    padding: 0.9rem 1.25rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    width: 100%;
+    margin-bottom: 0.3rem;
+  }
+  .filter-btn {
+    background: none;
+    border: 0.5px solid var(--text-dim);
+    color: var(--text-dim);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    padding: 0.55rem 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px;
+  }
+  .filter-btn:active { opacity: 0.7; }
+  .filter-btn.active {
+    border-color: var(--bronze);
+    color: var(--bronze-light);
+    background: rgba(176,141,87,0.1);
+  }
+
+  /* NAV TABS */
+  .nav-tabs {
+    background: var(--dark-2);
+    display: flex;
+    overflow-x: auto;
+    border-bottom: 3px solid var(--border);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    flex-shrink: 0;
+    padding: 1rem 1.15rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    scroll-snap-align: start;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px;
+  }
+  .nav-tab:active { opacity: 0.7; }
+  .nav-tab.active {
+    color: var(--bronze-light);
+    border-bottom-color: var(--bronze);
+    background: rgba(176,141,87,0.05);
+  }
+
+  /* MENU CONTENT */
+  .menu-content {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem 5rem;
+  }
+
+  /* SECTION */
+  .menu-section { display: none; }
+  .menu-section.visible { display: block; }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.75rem;
+    position: relative;
+  }
+  .section-header::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 2px;
+    background: var(--bronze);
+    opacity: 0.75;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 9vw, 4rem);
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: 0.1em;
+    font-style: italic;
+  }
+
+  /* SUBSECTION */
+  .subsection-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 400;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin: 2.5rem 0 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    opacity: 0.8;
+  }
+  .subsection-label::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: var(--border-strong);
+  }
+
+  /* MENU ITEM */
+  .menu-item {
+    display: flex;
+    flex-direction: column;
+    padding: 1.1rem 0;
+    border-bottom: 1.5px solid var(--border);
+    transition: background 0.15s;
+  }
+  .menu-item:last-child { border-bottom: none; }
+  .menu-item:hover { background: rgba(176,141,87,0.03); margin: 0 -0.75rem; padding-left: 0.75rem; padding-right: 0.75rem; }
+  .item-main {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+  .item-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--text);
+    flex: 1 1 0;
+    min-width: 0;
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+  }
+  .item-dots {
+    display: none;
+  }
+  .item-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--bronze-light);
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+  .item-desc {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: var(--text-dim);
+    margin-top: 0.3rem;
+    line-height: 1.6;
+    letter-spacing: 0.04em;
+    font-family: 'Montserrat', sans-serif;
+  }
+  .item-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.28rem;
+    margin-top: 0.5rem;
+  }
+  .allergen-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.22rem;
+    background: var(--dark-4);
+    border: 0.5px solid var(--border);
+    padding: 0.2rem 0.6rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+  }
+  .allergen-tag .num {
+    background: var(--bronze);
+    color: var(--dark);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .special-tag {
+    background: rgba(176,141,87,0.06);
+    border: 0.5px solid var(--border-strong);
+    color: var(--bronze-light);
+    padding: 0.25rem 0.7rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+  }
+  .preorder-tag {
+    background: transparent;
+    border: 0.5px solid var(--bronze);
+    color: var(--bronze);
+    padding: 0.25rem 0.7rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+  }
+  .item-hidden { display: none !important; }
+
+  /* NOTICE */
+  .notice-box {
+    background: var(--dark-3);
+    border: 1.5px solid var(--border);
+    border-left: 4px solid var(--bronze);
+    padding: 0.85rem 1.1rem;
+    margin: 1.5rem 0;
+    font-size: 0.92rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.7;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.03em;
+  }
+
+  /* SAUCES */
+  .sauces-line {
+    margin-top: 1.5rem;
+    padding: 0.85rem 0;
+    border-top: 0.5px solid var(--border);
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.7;
+  }
+  .sauces-line span { color: var(--bronze-light); font-weight: 400; }
+
+  /* PRICE NOTE */
+  .price-note {
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 1.1rem 0;
+    margin-top: 0.5rem;
+    border-top: 2px solid var(--border);
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  /* ALLERGEN LEGEND */
+  .legend-bar {
+    background: var(--dark-2);
+    border-top: 2px solid var(--border);
+    border-bottom: 2px solid var(--border);
+    padding: 1.5rem 1.25rem;
+  }
+  .legend-title {
+    font-size: 0.85rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 1rem;
+    opacity: 0.75;
+  }
+  .legend-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--text-dim);
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.03em;
+  }
+  .legend-badge {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--bronze);
+    color: var(--dark);
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    flex-shrink: 0;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    border-top: 2px solid var(--border);
+  }
+  footer strong { color: var(--bronze-light); font-weight: 400; }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 0;
+    color: var(--text-dim);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  /* THEME TOGGLE */
+  .theme-toggle {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 100;
+    background: var(--dark-3);
+    border: 0.5px solid var(--border-strong);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .theme-toggle:hover {
+    border-color: var(--bronze);
+    background: var(--dark-4);
+    transform: scale(1.08);
+  }
+  .theme-toggle:active { transform: scale(0.95); }
+  .theme-toggle svg {
+    width: 18px;
+    height: 18px;
+    transition: opacity 0.3s, transform 0.4s;
+  }
+  .theme-toggle .icon-moon { color: var(--bronze-light); }
+  .theme-toggle .icon-sun  { color: var(--bronze-light); display: none; }
+  :root.light .theme-toggle .icon-moon { display: none; }
+  :root.light .theme-toggle .icon-sun  { display: block; }
+
+  /* smooth theme transition */
+  *, *::before, *::after {
+    transition: background-color 0.3s ease, color 0.25s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  /* but NOT layout transitions */
+  .nav-tab, .filter-btn, .lang-btn, .menu-item, .theme-toggle {
+    transition: background-color 0.3s ease, color 0.25s ease, border-color 0.3s ease, opacity 0.2s, transform 0.2s;
+  }
+
+  /* DESKTOP */
+  @media (min-width: 600px) {
+    header { padding: 4rem 2rem 2.5rem; }
+    .lang-bar { padding: 0.65rem 2rem; }
+    .legend-bar { padding: 1.75rem 2rem; }
+    .filter-bar { padding: 0.75rem 2rem; flex-wrap: wrap; }
+    .filter-label { width: auto; margin-bottom: 0; }
+    .nav-tab { padding: 1.3rem 1.8rem; font-size: 0.9rem; }
+    .menu-content { padding: 3rem 2rem 5rem; }
+  }
+
+
+  /* REVIEWS SECTION */
+  .reviews-section {
+    background: var(--dark);
+    border-top: 2px solid var(--border);
+    padding: 3rem 1.5rem;
+  }
+  .reviews-inner {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .reviews-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .reviews-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text);
+    letter-spacing: 0.08em;
+  }
+  .reviews-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .reviews-score {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1;
+  }
+  .reviews-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+  .reviews-stars { color: #f5c842; font-size: 1rem; letter-spacing: 0.05em; }
+  .reviews-total {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.08em;
+  }
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  @media (min-width: 600px) {
+    .reviews-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .review-card {
+    background: var(--dark-2);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: border-color 0.2s;
+  }
+  .review-card:hover { border-color: var(--border-strong); }
+  .review-top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .review-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--bronze);
+    color: var(--dark);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .review-author-block { display: flex; flex-direction: column; gap: 0.1rem; }
+  .review-author {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 400;
+    color: var(--text);
+    letter-spacing: 0.03em;
+  }
+  .review-info {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.05em;
+  }
+  .review-stars { color: #f5c842; font-size: 0.9rem; letter-spacing: 0.04em; }
+  .review-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+  }
+  .review-date {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* INFO & MAP SECTION */
+  .info-map-section {
+    background: var(--dark-2);
+    border-top: 2px solid var(--border);
+    padding: 3rem 1.5rem;
+  }
+  .info-map-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  @media (min-width: 700px) {
+    .info-map-inner { grid-template-columns: 1fr 1fr; gap: 3rem; }
+  }
+  .info-map-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text);
+    letter-spacing: 0.08em;
+    margin-bottom: 1.75rem;
+    position: relative;
+    padding-bottom: 1rem;
+  }
+  .info-map-title::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 50px; height: 2px;
+    background: var(--bronze);
+    opacity: 0.75;
+  }
+  .info-block { display: flex; flex-direction: column; gap: 1.5rem; }
+  .info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
+  .info-icon {
+    flex-shrink: 0;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: rgba(176,141,87,0.1);
+    border: 0.5px solid var(--border-strong);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--bronze-light);
+    margin-top: 0.1rem;
+  }
+  .info-icon svg { width: 15px; height: 15px; }
+  .info-text { display: flex; flex-direction: column; gap: 0.15rem; }
+  .info-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    opacity: 0.8;
+  }
+  .info-value {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    letter-spacing: 0.03em;
+    line-height: 1.5;
+  }
+  .info-value a {
+    color: var(--bronze-light);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .info-value a:hover { color: var(--bronze-pale); }
+  .hours-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.3rem 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    letter-spacing: 0.03em;
+  }
+  .hours-day { color: var(--text-dim); }
+  .hours-time { color: var(--text-mid); }
+  .hours-day.today, .hours-time.today { color: var(--bronze-light); font-weight: 400; }
+  .stars-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.2rem;
+  }
+  .stars { color: #f5c842; font-size: 1rem; letter-spacing: 0.05em; }
+  .rating-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1;
+  }
+  .rating-count {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.05em;
+  }
+  .map-container {
+    border: 1.5px solid var(--border);
+    overflow: hidden;
+    height: 320px;
+    position: relative;
+  }
+  .directions-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 0.85rem;
+    padding: 0.85rem 1.5rem;
+    background: rgba(176,141,87,0.1);
+    border: 1px solid var(--border-strong);
+    color: var(--bronze-light);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.25s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .directions-btn:hover {
+    background: rgba(176,141,87,0.18);
+    border-color: var(--bronze);
+    color: var(--bronze-pale);
+  }
+  .directions-btn svg {
+    width: 16px; height: 16px; flex-shrink: 0;
+  }
+  .map-container iframe {
+    width: 100%; height: 100%;
+    border: none; display: block;
+    filter: grayscale(0.2) contrast(0.95);
+  }
+
+  /* ── INTRO SPLASH ── */
+  body.intro-active { overflow: hidden; }
+
+  #intro-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #0c0c0a;
+    overflow: hidden;
+    will-change: transform;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  #intro-splash.snapping {
+    transition: transform 0.55s cubic-bezier(0.32, 0, 0.18, 1);
+  }
+
+  /* Inner vertical scroller — two full-height panels stacked */
+  .intro-panels {
+    position: absolute;
+    top: 46px; /* below lang bar */
+    bottom: 80px; /* above swipe hint */
+    left: 0; right: 0;
+    overflow: hidden; /* JS controls scrolling, no native scroll */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Panels track — slides up/down via transform */
+  .intro-panels-track {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0s; /* JS adds transition when needed */
+    will-change: transform;
+  }
+  .intro-panels-track.animating {
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Each panel = exactly one slot of the panels container */
+  .intro-panel {
+    flex-shrink: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* ── PANEL 1: Bienvenido a Magani ── */
+  .intro-panel-1 {
+    background: #0c0c0a;
+  }
+  .intro-corner {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-color: rgba(176,141,87,0.28);
+    border-style: solid;
+    opacity: 0;
+    animation: fadeInCorner 1s 0.6s ease forwards;
+  }
+  .intro-corner.tl { top: 1rem; left: 1rem; border-width: 0.5px 0 0 0.5px; }
+  .intro-corner.tr { top: 1rem; right: 1rem; border-width: 0.5px 0.5px 0 0; }
+  .intro-corner.bl { bottom: 1rem; left: 1rem; border-width: 0 0 0.5px 0.5px; }
+  .intro-corner.br { bottom: 1rem; right: 1rem; border-width: 0 0.5px 0.5px 0; }
+  @keyframes fadeInCorner { to { opacity: 1; } }
+
+  .intro-deco-h {
+    position: absolute;
+    left: 8%; right: 8%;
+    height: 0.5px;
+    background: linear-gradient(90deg, transparent, rgba(176,141,87,0.2) 30%, rgba(176,141,87,0.2) 70%, transparent);
+  }
+  .intro-deco-h.top    { top: 18%; }
+  .intro-deco-h.bottom { bottom: 18%; }
+
+  .intro-pretitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 0.52rem;
+    letter-spacing: 0.7em;
+    text-transform: uppercase;
+    color: #b08d57;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s ease forwards;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .intro-bienvenido {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.5rem, 6vw, 2.4rem);
+    letter-spacing: 0.15em;
+    color: rgba(176,141,87,0.8);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s ease forwards;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+  .intro-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(5rem, 22vw, 10rem);
+    font-weight: 300;
+    color: #e8e4da;
+    letter-spacing: 0.22em;
+    line-height: 0.85;
+    opacity: 0;
+    animation: fadeUp 1s 0.6s ease forwards;
+    text-align: center;
+  }
+  .intro-divider {
+    width: 0;
+    height: 0.5px;
+    background: rgba(176,141,87,0.45);
+    margin: 1.8rem auto 0;
+    animation: growWidth 0.7s 1.1s ease forwards;
+  }
+  @keyframes growWidth { to { width: 60px; } }
+
+  /* scroll-down nudge on panel 1 */
+  .intro-nudge-down {
+    position: absolute;
+    bottom: 1.2rem;
+    left: 0; right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 2s ease forwards;
+    pointer-events: none;
+  }
+  .intro-nudge-down span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.48rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: rgba(160,152,144,0.5);
+  }
+  .nudge-arrow {
+    animation: nudgeBounce 1.6s 2.8s ease-in-out infinite;
+  }
+  .nudge-arrow svg { width: 16px; height: 16px; color: rgba(176,141,87,0.6); }
+  @keyframes nudgeBounce {
+    0%, 100% { transform: translateY(0); opacity: 0.5; }
+    50%       { transform: translateY(6px); opacity: 1; }
+  }
+
+  /* ── PANEL 2: Manifiesto + causa ── */
+  .intro-panel-2 {
+    background: #0c0c0a;
+    overflow-y: auto;
+    justify-content: flex-start;
+    padding-top: 2.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 1rem;
+  }
+  .intro-inner-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .intro-slogan {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.25rem, 5vw, 1.8rem);
+    font-weight: 300;
+    color: #c9a96e;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+  }
+  .intro-manifesto {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    line-height: 1.85;
+    color: rgba(160,152,144,0.85);
+    max-width: 320px;
+    margin-bottom: 0.7rem;
+  }
+  .intro-cause {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    line-height: 1.75;
+    color: #e8e4da;
+    max-width: 320px;
+    text-align: center;
+    border: 0.5px solid rgba(176,141,87,0.3);
+    border-left: 2px solid #b08d57;
+    padding: 0.9rem 1.1rem;
+    background: rgba(176,141,87,0.05);
+    margin-top: 0.4rem;
+    margin-bottom: 1.2rem;
+  }
+
+  /* swipe hint — fixed at bottom of splash */
+  .intro-swipe-hint {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.8s ease forwards;
+    background: linear-gradient(transparent, rgba(12,12,10,0.95) 40%);
+    cursor: pointer;
+    z-index: 5;
+  }
+  .swipe-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.52rem;
+    font-weight: 300;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: rgba(160,152,144,0.6);
+  }
+  .swipe-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: swipePulse 1.6s 2.5s ease-in-out infinite;
+  }
+  @keyframes swipePulse {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(-8px); opacity: 1; }
+  }
+  .swipe-icon svg { width: 18px; height: 18px; color: #b08d57; }
+
+  /* lang bar — fixed top inside splash */
+  .intro-lang-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.3rem;
+    padding: 0.65rem 1.25rem;
+    border-bottom: 0.5px solid rgba(176,141,87,0.15);
+    background: rgba(12,12,10,0.85);
+    backdrop-filter: blur(4px);
+    z-index: 10;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.1s ease forwards;
+  }
+  .intro-lang-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.52rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(106,100,96,0.8);
+    margin-right: 0.4rem;
+  }
+  .intro-lang-btn {
+    background: none;
+    border: 0.5px solid rgba(176,141,87,0.3);
+    color: rgba(160,152,144,0.7);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    padding: 0.28rem 0.6rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 34px;
+    min-width: 42px;
+  }
+  .intro-lang-btn.active {
+    border-color: #b08d57;
+    color: #c9a96e;
+    background: rgba(176,141,87,0.1);
+  }
+  .intro-lang-btn:hover:not(.active) {
+    border-color: rgba(176,141,87,0.55);
+    color: rgba(176,141,87,0.8);
+  }
+
+  /* logos */
+  .intro-logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 0.8rem 0 1rem;
+  }
+  .intro-logo-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    opacity: 0.88;
+  }
+  .intro-logo-badge svg {
+    width: 80px;
+    height: auto;
+    filter: brightness(1.15) saturate(0.85);
+  }
+  .intro-logo-year, .intro-logo-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.42rem;
+    letter-spacing: 0.12em;
+    color: rgba(160,152,144,0.6);
+    text-transform: uppercase;
+  }
+  .intro-logos-sep {
+    width: 0.5px;
+    height: 40px;
+    background: rgba(176,141,87,0.2);
+    flex-shrink: 0;
+  }
+  .intro-manifesto-last { margin-bottom: 0.6rem; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── INTRO SPLASH ── -->
+<div id="intro-splash">
+
+  <!-- IDIOMA ARRIBA FIJO -->
+  <div class="intro-lang-top" id="intro-lang">
+    <span class="intro-lang-label" id="intro-lang-label">Idioma</span>
+    <button class="intro-lang-btn active" onclick="setIntroLang('es')">ES</button>
+    <button class="intro-lang-btn" onclick="setIntroLang('en')">EN</button>
+    <button class="intro-lang-btn" onclick="setIntroLang('sv')">SV</button>
+  </div>
+
+  <!-- DOS PANELES CON SCROLL CONTROLADO POR JS -->
+  <div class="intro-panels" id="intro-panels">
+    <div class="intro-panels-track" id="intro-panels-track">
+
+    <!-- PANEL 1: Bienvenido a Magani -->
+    <div class="intro-panel intro-panel-1">
+      <div class="intro-deco-h top"></div>
+      <div class="intro-corner tl"></div>
+      <div class="intro-corner tr"></div>
+      <div class="intro-corner bl"></div>
+      <div class="intro-corner br"></div>
+
+      <p class="intro-pretitle">Torrevieja &nbsp;·&nbsp; Restaurante</p>
+      <p class="intro-bienvenido" id="intro-bienvenido-text">Bienvenido a</p>
+      <h1 class="intro-logo">Magani</h1>
+      <div class="intro-divider"></div>
+
+      <!-- Flecha hacia abajo para indicar que hay más -->
+      <div class="intro-nudge-down">
+        <span id="intro-nudge-label">Conoce nuestra historia</span>
+        <span class="nudge-arrow">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <polyline points="19 12 12 19 5 12"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+
+    <!-- PANEL 2: Manifiesto + causa + logos -->
+    <div class="intro-panel intro-panel-2">
+      <div class="intro-inner-2">
+        <p class="intro-slogan" id="intro-slogan-text">Amor &nbsp;·&nbsp; Pasión &nbsp;·&nbsp; Lealtad</p>
+
+        <p class="intro-manifesto" id="intro-manifesto-text">
+          Amamos lo que hacemos. Esa es la verdad. El amor, la pasión y la lealtad no son solo palabras para nosotros; son la esencia de este proyecto y la fuerza que nos mueve a dar siempre lo mejor.
+        </p>
+        <p class="intro-manifesto" id="intro-manifesto2-text">
+          Cuando se trabaja con el corazón, se nota. Se refleja en cada plato, en cada detalle, en cada experiencia que compartimos. Esa energía auténtica nos conecta con quienes valoran lo genuino. Quien nos visita no es solo un cliente, sino parte de esta historia.
+        </p>
+        <p class="intro-manifesto intro-manifesto-last" id="intro-manifesto3-text">
+          Cada encuentro con ustedes nos recuerda por qué hacemos esto. Nos inspira a seguir creciendo y a mantener viva la esencia de lo que somos.
+        </p>
+
+        <p class="intro-cause" id="intro-cause-text">
+          Fieles a nuestros valores, la dirección del restaurante con vuestra ayuda, aportará un 2% de la facturación hacia la lucha contra el alzheimer y el cáncer infantil.
+        </p>
+
+        <!-- LOGOS -->
+        <div class="intro-logos">
+          <div class="intro-logo-badge">
+            <svg viewBox="0 0 110 54" xmlns="http://www.w3.org/2000/svg">
+              <text x="2" y="38" font-family="Arial Black, sans-serif" font-size="40" font-weight="900" fill="#e8c000" letter-spacing="-1">C</text>
+              <text x="28" y="22" font-family="Arial, sans-serif" font-size="9.5" font-weight="700" fill="#2a7d3a">áncer</text>
+              <text x="28" y="34" font-family="Arial, sans-serif" font-size="9.5" font-weight="700" fill="#2a7d3a">infantil</text>
+              <text x="28" y="47" font-family="Arial, sans-serif" font-size="9" font-weight="400" fill="#2a7d3a" letter-spacing="0.5">aspanion</text>
+              <circle cx="92" cy="16" r="5" fill="#2a7d3a"/>
+              <circle cx="103" cy="14" r="4" fill="#5baa6a"/>
+              <path d="M85 32 Q88 20 92 26 Q96 20 99 32" fill="#2a7d3a"/>
+              <path d="M97 30 Q100 20 103 24 Q107 18 110 30" fill="#5baa6a"/>
+            </svg>
+            <span class="intro-logo-year">Desde 1985</span>
+          </div>
+          <div class="intro-logos-sep"></div>
+          <div class="intro-logo-badge">
+            <svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+              <path d="M30 45 Q20 38 18 28 Q16 18 26 16 Q32 14 36 20 Q40 12 48 14 Q56 16 54 26" stroke="#c07830" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <path d="M54 26 Q58 18 66 22 Q72 26 68 36 Q64 44 54 50 Q44 56 30 45" stroke="#3a5fa0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <text x="0" y="58" font-family="Arial, sans-serif" font-size="7.5" font-weight="700" fill="#3a3a3a" letter-spacing="0.3">AFA Torrevieja</text>
+            </svg>
+            <span class="intro-logo-sub">Asociación Alzheimer</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div><!-- /intro-panels-track -->
+  </div><!-- /intro-panels -->
+
+  <!-- SWIPE HINT ABAJO FIJO -->
+  <div class="intro-swipe-hint" id="swipe-hint">
+    <span class="swipe-label" id="swipe-label-text">Desliza para ver la carta</span>
+    <span class="swipe-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="19" x2="12" y2="5"/>
+        <polyline points="5 12 12 5 19 12"/>
+      </svg>
+    </span>
+  </div>
+</div>
+
+<!-- THEME TOGGLE -->
+<button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle light/dark mode">
+  <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+  <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="5"/>
+    <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+    <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+  </svg>
+</button>
+
+<header>
+  <div class="header-pretitle">Torrevieja &nbsp;·&nbsp; La Mata</div>
+  <div class="header-sub" style="margin-top:0.5rem; margin-bottom:1.8rem; font-size:1.1rem; letter-spacing:0.5em;">Restaurante</div>
+  <span class="header-logo">Magani</span>
+  <div class="header-sub" style="margin-top:1.4rem;">Fine Dining</div>
+  <div class="header-location">Mediterráneo</div>
+</header>
+
+<div class="lang-bar">
+  <span class="lang-label">Idioma</span>
+  <button class="lang-btn active" onclick="setLang('es')">ES</button>
+  <button class="lang-btn" onclick="setLang('en')">EN</button>
+  <button class="lang-btn" onclick="setLang('sv')">SV</button>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="filter-label" id="filter-label">Filtrar</span>
+  <button class="filter-btn active" onclick="setFilter('all')" id="f-all">Todo</button>
+  <button class="filter-btn" onclick="setFilter('veg')" id="f-veg">🌿 Vegetariano</button>
+  <button class="filter-btn" onclick="setFilter('nofish')" id="f-nofish">Sin pescado</button>
+  <button class="filter-btn" onclick="setFilter('nomeat')" id="f-nomeat">Sin carne</button>
+  </div>
+
+<!-- NAV TABS -->
+<div class="nav-tabs" id="nav-tabs"></div>
+
+<!-- MENU CONTENT -->
+<div class="menu-content" id="menu-content"></div>
+
+<!-- ALLERGEN LEGEND -->
+<div class="legend-bar">
+  <div class="legend-title" id="leg-title">Alérgenos</div>
+  <div class="legend-grid" id="legend-grid"></div>
+</div>
+
+<!-- REVIEWS SECTION -->
+<section class="reviews-section">
+  <div class="reviews-inner">
+    <div class="reviews-header">
+      <div class="reviews-title" id="i18n-reviews-title">Lo que dicen nuestros clientes</div>
+      <div class="reviews-summary">
+        <span class="reviews-score">4,2</span>
+        <div class="reviews-meta">
+          <span class="reviews-stars">★★★★☆</span>
+          <span class="reviews-total" id="i18n-reviews-total">2.368 reseñas en Google</span>
+        </div>
+      </div>
+    </div>
+    <div class="reviews-grid" id="reviews-grid"></div>
+  </div>
+</section>
+
+<!-- INFO & MAP SECTION -->
+<section class="info-map-section">
+  <div class="info-map-inner">
+
+    <!-- Left: address, phone, reviews, hours -->
+    <div class="info-block">
+      <div class="info-map-title" id="i18n-find-us">Encuéntranos</div>
+
+      <!-- Address -->
+      <div class="info-row">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>
+          </svg>
+        </div>
+        <div class="info-text">
+          <span class="info-label" id="i18n-address">Dirección</span>
+          <span class="info-value">
+            <a href="https://www.google.com/maps/place/?q=place_id:ChIJZ5GPyEaqYw0RQHigh-O1kfc" target="_blank" rel="noopener">
+              Carr. del Torrejón, 03183<br>Torrevieja, Alicante
+            </a>
+          </span>
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="info-row">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.06 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/>
+          </svg>
+        </div>
+        <div class="info-text">
+          <span class="info-label" id="i18n-phone">Teléfono</span>
+          <span class="info-value"><a href="tel:+34966920212">966 920 212</a></span>
+        </div>
+      </div>
+
+      <!-- Reviews -->
+      <div class="info-row">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <div class="info-text">
+          <span class="info-label" id="i18n-reviews-label">Reseñas Google</span>
+          <div class="stars-row">
+            <span class="stars">★★★★☆</span>
+            <span class="rating-num">4,2</span>
+            <span class="rating-count">(2.368 reseñas)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hours -->
+      <div class="info-row">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <div class="info-text">
+          <span class="info-label" id="i18n-hours-label">Horario</span>
+          <div class="hours-grid">
+            <span class="hours-day" id="hd-1" data-key="day1">Lunes</span><span class="hours-time" id="ht-1">8:00 – 00:00</span>
+            <span class="hours-day" id="hd-2" data-key="day2">Martes</span><span class="hours-time" id="ht-2">8:00 – 00:00</span>
+            <span class="hours-day" id="hd-3" data-key="day3">Miércoles</span><span class="hours-time" id="ht-3">8:00 – 00:00</span>
+            <span class="hours-day" id="hd-4" data-key="day4">Jueves</span><span class="hours-time" id="ht-4">8:00 – 00:00</span>
+            <span class="hours-day" id="hd-5" data-key="day5">Viernes</span><span class="hours-time" id="ht-5">8:00 – 00:00</span>
+            <span class="hours-day" id="hd-6" data-key="day6">Sábado</span><span class="hours-time" id="ht-6">8:00 – 00:00</span>
+            <span class="hours-day" id="hd-0" data-key="day0">Domingo</span><span class="hours-time" id="ht-0">8:00 – 00:00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: map -->
+    <div>
+      <div class="info-map-title" id="i18n-location-title">Ubicación</div>
+      <div class="map-container">
+        <iframe
+          src="https://maps.google.com/maps?q=38.0037989,-0.6548732&z=16&output=embed"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Ubicación Magani Restaurant">
+        </iframe>
+      </div>
+      <a class="directions-btn" href="https://www.google.com/maps/dir/?api=1&destination=38.0037989,-0.6548732&destination_place_id=ChIJZ5GPyEaqYw0RQHigh-O1kfc" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+        </svg>
+        <span id="i18n-directions">Cómo llegar</span>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <strong>Magani Restaurant</strong> &nbsp;·&nbsp; <span id="footer-text">Todos los precios incluyen IVA</span>
+</footer>
+
+
+
+<script>
+function toggleTheme() {
+  const root = document.documentElement;
+  root.classList.toggle('light');
+  localStorage.setItem('magani-theme', root.classList.contains('light') ? 'light' : 'dark');
+}
+
+// ── INTRO TWO-PANEL LOGIC ──
+(function() {
+  const splash = document.getElementById('intro-splash');
+  if (!splash) return;
+
+  document.body.classList.add('intro-active');
+
+  const track = document.getElementById('intro-panels-track');
+  const panels = document.getElementById('intro-panels');
+  let currentPanel = 0; // 0 = panel1, 1 = panel2
+
+  function goToPanel(index, animate) {
+    if (animate) track.classList.add('animating');
+    const h = panels.clientHeight;
+    track.style.transform = `translateY(${-index * h}px)`;
+    currentPanel = index;
+    if (animate) {
+      track.addEventListener('transitionend', () => {
+        track.classList.remove('animating');
+      }, { once: true });
+    }
+  }
+
+  // Start at panel 0 (no animation, instant)
+  goToPanel(0, false);
+
+  // Auto-scroll to panel 2 after 4.4s
+  setTimeout(() => {
+    goToPanel(1, true);
+  }, 3400);
+
+  // Recalculate on resize
+  window.addEventListener('resize', () => {
+    goToPanel(currentPanel, false);
+  });
+
+  // ── Dismiss splash (swipe the whole splash up to reveal menu) ──
+  let startY = 0, currentY = 0, dragging = false;
+  const THRESHOLD = window.innerHeight * 0.25;
+
+  function dismiss() {
+    splash.classList.add('snapping');
+    splash.style.transform = 'translateY(-100%)';
+    splash.addEventListener('transitionend', () => {
+      splash.style.display = 'none';
+      document.body.classList.remove('intro-active');
+    }, { once: true });
+  }
+
+  function snapBack() {
+    splash.classList.add('snapping');
+    splash.style.transform = 'translateY(0)';
+    splash.addEventListener('transitionend', () => {
+      splash.classList.remove('snapping');
+    }, { once: true });
+  }
+
+  const swipeHint = document.getElementById('swipe-hint');
+
+  function onTouchStart(e) {
+    startY = e.touches[0].clientY;
+    currentY = 0;
+    dragging = true;
+    splash.classList.remove('snapping');
+  }
+  function onTouchMove(e) {
+    if (!dragging) return;
+    const dy = e.touches[0].clientY - startY;
+    if (dy < 0) {
+      currentY = dy;
+      splash.style.transform = `translateY(${dy}px)`;
+      e.preventDefault();
+    }
+  }
+  function onTouchEnd() {
+    dragging = false;
+    if (currentY < -THRESHOLD) dismiss();
+    else snapBack();
+  }
+
+  swipeHint.addEventListener('touchstart', onTouchStart, { passive: true });
+  swipeHint.addEventListener('touchmove', onTouchMove, { passive: false });
+  swipeHint.addEventListener('touchend', onTouchEnd);
+  swipeHint.addEventListener('click', dismiss);
+
+  // Also allow drag from anywhere outside panels/lang
+  splash.addEventListener('touchstart', e => {
+    if (e.target.closest('.intro-panels') || e.target.closest('.intro-lang-top')) return;
+    onTouchStart(e);
+  }, { passive: true });
+  splash.addEventListener('touchmove', e => {
+    if (!dragging) return;
+    onTouchMove(e);
+  }, { passive: false });
+  splash.addEventListener('touchend', onTouchEnd);
+
+  // Mouse drag (desktop)
+  splash.addEventListener('mousedown', e => {
+    if (e.target.closest('.intro-panels') || e.target.closest('.intro-lang-top')) return;
+    startY = e.clientY; currentY = 0; dragging = true;
+    splash.classList.remove('snapping');
+    e.preventDefault();
+  });
+  window.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const dy = e.clientY - startY;
+    if (dy < 0) { currentY = dy; splash.style.transform = `translateY(${dy}px)`; }
+  });
+  window.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    dragging = false;
+    if (currentY < -THRESHOLD) dismiss(); else snapBack();
+  });
+
+})();
+
+// ── INTRO LANGUAGE SELECTOR ──
+const introTexts = {
+  es: {
+    langLabel: 'Idioma',
+    bienvenido: 'Bienvenido a',
+    nudge: 'Conoce nuestra historia',
+    slogan: 'Amor &nbsp;·&nbsp; Pasión &nbsp;·&nbsp; Lealtad',
+    cause: 'Fieles a nuestros valores, la dirección del restaurante con vuestra ayuda, aportará un 2% de la facturación hacia la lucha contra el alzheimer y el cáncer infantil.',
+    manifesto: 'Amamos lo que hacemos. Esa es la verdad. El amor, la pasión y la lealtad no son solo palabras para nosotros; son la esencia de este proyecto y la fuerza que nos mueve a dar siempre lo mejor.',
+    manifesto2: 'Cuando se trabaja con el corazón, se nota. Se refleja en cada plato, en cada detalle, en cada experiencia que compartimos. Esa energía auténtica nos conecta con quienes valoran lo genuino. Quien nos visita no es solo un cliente, sino parte de esta historia.',
+    manifesto3: 'Cada encuentro con ustedes nos recuerda por qué hacemos esto. Nos inspira a seguir creciendo y a mantener viva la esencia de lo que somos.',
+    swipe: 'Desliza para ver la carta'
+  },
+  en: {
+    langLabel: 'Language',
+    bienvenido: 'Welcome to',
+    nudge: 'Discover our story',
+    slogan: 'Love &nbsp;·&nbsp; Passion &nbsp;·&nbsp; Loyalty',
+    cause: 'True to our values, the restaurant management, with your help, will donate 2% of its revenue to the fight against Alzheimer\'s and childhood cancer.',
+    manifesto: 'We love what we do. That is the truth. Love, passion and loyalty are not just words for us; they are the essence of this project and the force that drives us to always give our best.',
+    manifesto2: 'When you work with heart, it shows. It is reflected in every dish, every detail, every experience we share. That authentic energy connects us with those who value what is genuine. Every guest is not just a customer, but part of this story.',
+    manifesto3: 'Every encounter with you reminds us why we do this. It inspires us to keep growing and to keep alive the essence of who we are.',
+    swipe: 'Swipe up to see the menu'
+  },
+  sv: {
+    langLabel: 'Språk',
+    bienvenido: 'Välkommen till',
+    nudge: 'Lär känna oss',
+    slogan: 'Kärlek &nbsp;·&nbsp; Passion &nbsp;·&nbsp; Lojalitet',
+    cause: 'Trogna våra värderingar kommer restaurangens ledning, med er hjälp, att donera 2% av omsättningen till kampen mot Alzheimers och barncancer.',
+    manifesto: 'Vi älskar det vi gör. Det är sanningen. Kärlek, passion och lojalitet är inte bara ord för oss; de är kärnan i detta projekt och kraften som driver oss att alltid ge vårt bästa.',
+    manifesto2: 'När man arbetar med hjärtat märks det. Det syns i varje rätt, varje detalj, varje upplevelse vi delar. Den äkta energin förbinder oss med dem som värdesätter det genuina. Den som besöker oss är inte bara en gäst, utan en del av denna historia.',
+    manifesto3: 'Varje möte med er påminner oss om varför vi gör detta. Det inspirerar oss att fortsätta växa och hålla kvar essensen av vilka vi är.',
+    swipe: 'Svep uppåt för att se menyn'
+  }
+};
+
+function setIntroLang(l) {
+  const t = introTexts[l];
+  document.getElementById('intro-lang-label').textContent = t.langLabel;
+  document.getElementById('intro-bienvenido-text').textContent = t.bienvenido;
+  document.getElementById('intro-nudge-label').textContent = t.nudge;
+  document.getElementById('intro-slogan-text').innerHTML = t.slogan;
+  document.getElementById('intro-cause-text').innerHTML = t.cause;
+  document.getElementById('intro-manifesto-text').innerHTML = t.manifesto;
+  document.getElementById('intro-manifesto2-text').innerHTML = t.manifesto2;
+  document.getElementById('intro-manifesto3-text').innerHTML = t.manifesto3;
+  document.getElementById('swipe-label-text').textContent = t.swipe;
+  document.querySelectorAll('.intro-lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.intro-lang-btn[onclick="setIntroLang('${l}')"]`).classList.add('active');
+  setLang(l);
+}
+
+// Restore saved theme
+(function() {
+  const saved = localStorage.getItem('magani-theme');
+  if (saved === 'light') document.documentElement.classList.add('light');
+})();
+
+const LANG = { current: 'es' };
+const FILTER = { current: 'all' };
+
+const allergenNames = {
+  es: {
+    1:'Gluten', 2:'Crustáceos', 3:'Huevos', 4:'Pescado', 5:'Cacahuetes',
+    6:'Soja', 7:'Lácteos', 8:'Frutos de cáscara', 9:'Apio', 10:'Mostaza',
+    11:'Sésamo', 12:'Sulfitos', 13:'Altramuces', 14:'Moluscos'
+  },
+  en: {
+    1:'Gluten', 2:'Crustaceans', 3:'Eggs', 4:'Fish', 5:'Peanuts',
+    6:'Soy', 7:'Dairy', 8:'Tree Nuts', 9:'Celery', 10:'Mustard',
+    11:'Sesame', 12:'Sulphites', 13:'Lupins', 14:'Molluscs'
+  },
+  sv: {
+    1:'Gluten', 2:'Kräftdjur', 3:'Ägg', 4:'Fisk', 5:'Jordnötter',
+    6:'Soja', 7:'Mjölk', 8:'Nötter', 9:'Selleri', 10:'Senap',
+    11:'Sesam', 12:'Sulfiter', 13:'Lupin', 14:'Blötdjur'
+  }
+};
+
+const reviewsData = [
+  {
+    avatar: 'J', author: 'Jenn',
+    info: { es: 'Local Guide · 65 reseñas · 407 fotos', en: 'Local Guide · 65 reviews · 407 photos', sv: 'Local Guide · 65 recensioner · 407 foton' },
+    stars: '★★★★★',
+    date: { es: 'Hace 11 meses', en: '11 months ago', sv: 'För 11 månader sedan' },
+    text: {
+      es: 'Venimos ayer a comer y nos quedamos encantadas con la comida y la atención que recibimos por parte de Mare, ya que fue muy atenta, simpática y con una atención por su parte inmejorable. La comida buenísima, puedes disfrutar comiendo sin ruidos y sin la música alta.',
+      en: 'We came yesterday for lunch and were delighted with the food and the service we received from Mare, who was very attentive, friendly and provided impeccable care. The food was excellent — you can enjoy your meal without noise or loud music.',
+      sv: 'Vi kom igår för att äta och var förtjusta i maten och bemötandet vi fick av Mare, som var mycket uppmärksam, trevlig och gav enastående service. Maten var fantastisk — man kan äta i lugn och ro utan högt ljud eller musik.'
+    }
+  },
+  {
+    avatar: 'O', author: 'Ovin Matias',
+    info: { es: 'Local Guide · 78 reseñas', en: 'Local Guide · 78 reviews', sv: 'Local Guide · 78 recensioner' },
+    stars: '★★★★★',
+    date: { es: 'Hace 4 meses', en: '4 months ago', sv: 'För 4 månader sedan' },
+    text: {
+      es: 'Excelente atención! Muy recomendable lugar. La comida está muy bien, a precio razonable. Nos ha atendido Mare con su simpatía y hemos pasado un grato momento. 100% recomendable.',
+      en: 'Excellent service! Highly recommended place. The food is very good, at a reasonable price. Mare served us with great warmth and we had a wonderful time. 100% recommended.',
+      sv: 'Utmärkt service! Mycket rekommenderat ställe. Maten är väldigt bra till ett rimligt pris. Mare betjänade oss med stor värme och vi hade en fantastisk tid. 100% rekommenderas.'
+    }
+  },
+  {
+    avatar: 'M', author: 'Manvel Chako',
+    info: { es: 'Local Guide · 115 reseñas · 41 fotos', en: 'Local Guide · 115 reviews · 41 photos', sv: 'Local Guide · 115 recensioner · 41 foton' },
+    stars: '★★★★★',
+    date: { es: 'Hace un mes', en: '1 month ago', sv: 'För en månad sedan' },
+    text: {
+      es: 'Si estás por Torrevieja, este sitio es de visita obligada, principalmente por la maravillosa acogida que recibimos. Lo mejor de lo mejor: el servicio. El camarero que nos atendió fue extremadamente amable, atento en todo momento y con una energía increíble que hizo que la cena fuera de diez. La comida: en general, todo estaba buenísimo.',
+      en: 'If you\'re in Torrevieja, this place is a must-visit, mainly for the wonderful welcome we received. The best of the best: the service. The waiter who attended us was extremely kind, attentive at all times and with incredible energy that made dinner a ten out of ten. The food: overall, everything was excellent.',
+      sv: 'Om du är i Torrevieja är detta ställe ett måste, främst för det underbara mottagandet vi fick. Det bästa av det bästa: servicen. Servitören som tog hand om oss var extremt vänlig, uppmärksam hela tiden och med otrolig energi som gjorde middagen till en tia. Maten: överlag var allt utmärkt.'
+    }
+  },
+  {
+    avatar: 'A', author: 'Andrei Sa',
+    info: { es: 'Local Guide · 12 reseñas · 16 fotos', en: 'Local Guide · 12 reviews · 16 photos', sv: 'Local Guide · 12 recensioner · 16 foton' },
+    stars: '★★★★★',
+    date: { es: 'Hace 2 meses', en: '2 months ago', sv: 'För 2 månader sedan' },
+    text: {
+      es: 'Menú del día, ¡el mejor! 🫰... buena relación calidad-precio... además, buen tiempo soleado en España en marzo después de la lluviosa Irlanda.',
+      en: 'Set menu of the day, the best! 🫰... great value for money... plus, lovely sunny weather in Spain in March after rainy Ireland.',
+      sv: 'Dagens meny, den bästa! 🫰... utmärkt värde för pengarna... plus, härligt soligt väder i Spanien i mars efter regniga Irland.'
+    }
+  }
+];
+
+function renderReviews() {
+  const l = lang();
+  const grid = document.getElementById('reviews-grid');
+  if (!grid) return;
+  grid.innerHTML = reviewsData.map(r => `
+    <div class="review-card">
+      <div class="review-top">
+        <div class="review-avatar">${r.avatar}</div>
+        <div class="review-author-block">
+          <span class="review-author">${r.author}</span>
+          <span class="review-info">${r.info[l]}</span>
+        </div>
+      </div>
+      <div>
+        <span class="review-stars">${r.stars}</span>
+        <span class="review-date">&nbsp;· ${r.date[l]}</span>
+      </div>
+      <p class="review-text">${r.text[l]}</p>
+    </div>
+  `).join('');
+}
+
+const ui = {
+  es: {
+    legTitle:'Alérgenos', filterLabel:'Filtrar',
+    fAll:'Todo', fVeg:'🌿 Vegetariano', fNofish:'Sin pescado', fNomeat:'Sin carne',
+    search:'Buscar...', preorder:'PRE-ORDER',
+    footerText:'Todos los precios incluyen IVA', emptyState:'No se encontraron platos',
+    veg:'Vegetariano',
+    reviewsTitle:'Lo que dicen nuestros clientes', reviewsTotal:'2.368 reseñas en Google',
+    findUs:'Encuéntranos', address:'Dirección', phone:'Teléfono',
+    reviewsLabel:'Reseñas Google', hoursLabel:'Horario', locationTitle:'Ubicación',
+    directions:'Cómo llegar',
+    days:['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado']
+  },
+  en: {
+    legTitle:'Allergens', filterLabel:'Filter',
+    fAll:'All', fVeg:'🌿 Vegetarian', fNofish:'No Fish', fNomeat:'No Meat',
+    search:'Search...', preorder:'PRE-ORDER',
+    footerText:'All prices include VAT', emptyState:'No dishes found',
+    veg:'Vegetarian',
+    reviewsTitle:'What our customers say', reviewsTotal:'2,368 reviews on Google',
+    findUs:'Find us', address:'Address', phone:'Phone',
+    reviewsLabel:'Google Reviews', hoursLabel:'Opening hours', locationTitle:'Location',
+    directions:'Get directions',
+    days:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+  },
+  sv: {
+    legTitle:'Allergener', filterLabel:'Filtrera',
+    fAll:'Alla', fVeg:'🌿 Vegetarisk', fNofish:'Utan fisk', fNomeat:'Utan kött',
+    search:'Sök...', preorder:'FÖRBESTÄLL',
+    footerText:'Alla priser inkl. moms', emptyState:'Inga rätter hittades',
+    veg:'Vegetarisk',
+    reviewsTitle:'Vad våra gäster säger', reviewsTotal:'2 368 recensioner på Google',
+    findUs:'Hitta oss', address:'Adress', phone:'Telefon',
+    reviewsLabel:'Google-recensioner', hoursLabel:'Öppettider', locationTitle:'Plats',
+    directions:'Vägbeskrivning',
+    days:['Söndag','Måndag','Tisdag','Onsdag','Torsdag','Fredag','Lördag']
+  }
+};
+
+const sections = [
+  {
+    id:'starters', name_es:'Entrantes', name_en:'Starters', name_sv:'Förrätter',
+    subsections: [
+      {
+        label_es:'Fríos', label_en:'Cold', label_sv:'Kalla',
+        items:[
+          {name_es:'Jamón ibérico con melón',name_en:'Iberian ham with melon',name_sv:'Iberisk skinka med melon',desc_es:'',desc_en:'',desc_sv:'',price:'24,00',allergens:[],hasMeat:true},
+          {name_es:'Tabla de jamón ibérico',name_en:'Iberian ham platter',name_sv:'Bricka med iberisk skinka',desc_es:'Opcional: queso',desc_en:'Optional: cheese',desc_sv:'Valfritt: ost',price:'26/28',allergens:[7],hasMeat:true},
+          {name_es:'Selección de quesos artesanos',name_en:'Mix of artisan cheeses',name_sv:'Urval av hantverksost',desc_es:'Selección / Aromas / Textura / Sabor',desc_en:'Selection / Aromas / Texture / Flavor',desc_sv:'Urval / Aromer / Textur / Smak',price:'20,00',allergens:[7],veg:true},
+          {name_es:'Carpaccio de Wagyu (A-5 Japón)',name_en:'Wagyu carpaccio (A-5 Japan)',name_sv:'Wagyu carpaccio (A-5 Japan)',desc_es:'',desc_en:'',desc_sv:'',price:'28,00',allergens:[],hasMeat:true},
+          {name_es:'Steak tartare',name_en:'Steak tartare',name_sv:'Steak tartare',desc_es:'Receta auténtica del chef',desc_en:'Authentic chef\'s recipe',desc_sv:'Kockens äkta recept',price:'26,00',allergens:[3,4,12],hasMeat:true},
+          {name_es:'Cerdo ibérico curado (Exclusivo R. Magani)',name_en:'Cured Iberian pork (Exclusive R. Magani)',name_sv:'Kryddad iberisk fläsk (Exklusivt R. Magani)',desc_es:'',desc_en:'',desc_sv:'',price:'25,00',allergens:[],hasMeat:true},
+          {name_es:'Tartar de salmón noruego',name_en:'Norwegian salmon tartare',name_sv:'Norsk laxtatak',desc_es:'Aguacate japonés, tomate en dados, cebolla y vinagreta de mango',desc_en:'Japanese avocado, diced tomato, onion, and mango vinaigrette',desc_sv:'Japansk avokado, tärnad tomat, lök och mangovinägrett',price:'22,00',allergens:[4,12],hasFish:true},
+          {name_es:'Tataki de atún rojo (Balfegó)',name_en:'Bluefin tuna tataki (Balfegó)',name_sv:'Blåfenad tonfisk tataki (Balfegó)',desc_es:'Receta del chef (Shànyǔ & Bùfǎxī)',desc_en:'Chef\'s recipe (Shànyǔ & Bùfǎxī)',desc_sv:'Kockens recept (Shànyǔ & Bùfǎxī)',price:'26,00',allergens:[4],hasFish:true},
+          {name_es:'Ceviche de lubina',name_en:'Sea bass ceviche',name_sv:'Havsabborre ceviche',desc_es:'Preparado en la mesa',desc_en:'Prepared tableside',desc_sv:'Tillagas vid bordet',price:'24,00',allergens:[4],hasFish:true},
+          {name_es:'Carpaccio de pescado ahumado',name_en:'Smoked fish carpaccio',name_sv:'Rökt fisk carpaccio',desc_es:'Salmón, bacalao, tomate fresco rallado, alcaparras',desc_en:'Salmon, cod, grated fresh tomato, capers',desc_sv:'Lax, torsk, riven färsk tomat, kapris',price:'22,00',allergens:[4],hasFish:true},
+        ]
+      },
+      {
+        label_es:'Calientes', label_en:'Hot', label_sv:'Varma',
+        items:[
+          {name_es:'Sopa del día',name_en:'Soup of the day',name_sv:'Dagens soppa',desc_es:'Pregunte a su camarero',desc_en:'Ask your waiter',desc_sv:'Fråga din servitör',price:'10,00',allergens:[]},
+          {name_es:'Queso camembert con mermelada casera',name_en:'Camembert cheese with homemade jam',name_sv:'Camembertost med hemgjord sylt',desc_es:'',desc_en:'',desc_sv:'',price:'14,00',allergens:[7],veg:true},
+          {name_es:'Mejillones al vapor o receta del chef',name_en:'Steamed mussels or chef\'s recipe',name_sv:'Ångkokta musslor eller kockens recept',desc_es:'',desc_en:'',desc_sv:'',price:'16,00',allergens:[14],hasFish:true},
+          {name_es:'Gratén de gambas «Estilo Magani»',name_en:'Prawn gratin "Magani\'s style"',name_sv:'Räkgratäng "Magani-stil"',desc_es:'',desc_en:'',desc_sv:'',price:'22,00',allergens:[1,2,4,7,12],hasFish:true},
+          {name_es:'Gambas al ajillo flambeadas',name_en:'Flambéed garlic prawns',name_sv:'Flamberade vitlöksräkor',desc_es:'',desc_en:'',desc_sv:'',price:'20,00',allergens:[2],hasFish:true},
+          {name_es:'Vieiras del Pacífico (6 uds.)',name_en:'Pacific scallops (6 pcs.)',name_sv:'Stillahavs­kammusslor (6 st.)',desc_es:'Salsa kimchi flambeada con ralladura de lima',desc_en:'Flambéed kimchi sauce with lime zest',desc_sv:'Flamberad kimchisås med limeskal',price:'25,00',allergens:[14],hasFish:true},
+          {name_es:'Calamar local a la plancha (700 gr.)',name_en:'Grilled local squid (700 gr.)',name_sv:'Grillad lokal bläckfisk (700 gr.)',desc_es:'',desc_en:'',desc_sv:'',price:'28,00',allergens:[14],hasFish:true},
+          {name_es:'Sepia a la plancha (700 gr.)',name_en:'Grilled cuttlefish (700 gr.)',name_sv:'Grillad kolja (700 gr.)',desc_es:'',desc_en:'',desc_sv:'',price:'25,00',allergens:[14],hasFish:true},
+          {name_es:'Gambón a la plancha (12 uds.)',name_en:'Grilled king prawns (12 pcs.)',name_sv:'Grillade kungräkor (12 st.)',desc_es:'',desc_en:'',desc_sv:'',price:'24,00',allergens:[2],hasFish:true},
+          {name_es:'Calamar frito «Estilo Romano»',name_en:'Fried squid "Roman\'s style"',name_sv:'Friterad bläckfisk "romansk stil"',desc_es:'',desc_en:'',desc_sv:'',price:'18,00',allergens:[1,3,14],hasFish:true},
+          {name_es:'Fritura imperial de pescado',name_en:'Imperial mixed fried fish',name_sv:'Imperial blandad friterad fisk',desc_es:'',desc_en:'',desc_sv:'',price:'22,00',allergens:[1,4],hasFish:true},
+          {name_es:'Verduras a la plancha',name_en:'Grilled vegetables',name_sv:'Grillade grönsaker',desc_es:'Con medallones de queso flambeado',desc_en:'With flambéed cheese medallions',desc_sv:'Med flamberade ostmedaljoner',price:'20,00',allergens:[7],veg:true},
+        ]
+      }
+    ]
+  },
+  {
+    id:'salads', name_es:'Ensaladas', name_en:'Salads', name_sv:'Sallader',
+    items:[
+      {name_es:'César',name_en:'Caesar',name_sv:'Caesar',desc_es:'200 g pollo crujiente, tomates cherry, huevo rallado, parmesano, picatostes, rúcula, lechuga gourmet, salsa César',desc_en:'200 g crispy chicken, cherry tomatoes, grated egg, parmesan, croutons, arugula, gourmet lettuce, caesar dressing',desc_sv:'200 g krispig kyckling, körsbärstomater, riven ägg, parmesan, krutonger, ruccola, gourmetssallad, caesardressing',price:'16,00',allergens:[1,3,7,12],hasMeat:true},
+      {name_es:'Tropical',name_en:'Tropical',name_sv:'Tropisk',desc_es:'200 g pechuga de pollo, piña, aguacate, melón, naranja, tomate, huevo, pepino, escarola, lechuga gourmet, vinagre de Módena y aliño de frutos rojos',desc_en:'200 g chicken breast, pineapple, avocado, melon, orange, tomato, egg, cucumber, escarole, gourmet lettuce, modena vinegar and red berry dressing',desc_sv:'200 g kycklingbröst, ananas, avokado, melon, apelsin, tomat, ägg, gurka, escarole, gourmetsallad, modenavingsäger och röda bär dressing',price:'18,00',allergens:[3,12],hasMeat:true},
+      {name_es:'César de gambas',name_en:'Prawn Caesar',name_sv:'Räkcaesar',desc_es:'200 g gambón, tomates cherry, huevo rallado, parmesano, picatostes, rúcula, lechuga gourmet, salsa César',desc_en:'200 g king prawns, cherry tomatoes, grated egg, parmesan, croutons, arugula, gourmet lettuce, caesar dressing',desc_sv:'200 g kungräkor, körsbärstomater, riven ägg, parmesan, krutonger, ruccola, gourmetsallad, caesardressing',price:'17,00',allergens:[1,2,3,7],hasFish:true},
+      {name_es:'Afrodita',name_en:'Aphrodite',name_sv:'Afrodite',desc_es:'150 g gambón, aguacate, piña, melón, mango, tomates cherry, maíz, rúcula, lechuga gourmet, salsa rosa',desc_en:'150 g king prawns, avocado, pineapple, melon, mango, cherry tomatoes, corn, arugula, gourmet lettuce, pink sauce',desc_sv:'150 g kungräkor, avokado, ananas, melon, mango, körsbärstomater, majs, ruccola, gourmetsallad, rosa sås',price:'18,00',allergens:[2,4,7,10,12],hasFish:true},
+      {name_es:'Del Chef',name_en:'Chef\'s',name_sv:'Kockens',desc_es:'150 g burrata italiana, emulsión de albahaca, coulis de mango, fresas, base de melón carpaccio, rúcula, brotes, pera confitada',desc_en:'150 g authentic Italian burrata, basil emulsion, mango coulis, strawberries, melon carpaccio base, arugula, sprouts, candied pear',desc_sv:'150 g äkta italiensk burrata, basilikoemulsion, mangocoulis, jordgubbar, meloncarpacciobas, ruccola, skott, kanderad päron',price:'18,00',allergens:[4,7,10],veg:true},
+      {name_es:'Fiordo',name_en:'Fjord',name_sv:'Fjord',desc_es:'Salmón, bacalao, queso fresco, aguacate, mozzarella de búfala, caviar, pepino, rúcula, manzana laminada, eneldo, lechuga gourmet, aliño de miel y mostaza',desc_en:'Salmon, cod, fresh cheese, avocado, buffalo mozzarella, caviar, cucumber, arugula, sliced apple, dill, gourmet lettuce, honey-mustard dressing',desc_sv:'Lax, torsk, färskost, avokado, buffelsmozzarella, kaviar, gurka, ruccola, skivat äpple, dill, gourmetsallad, honung-senapsdressing',price:'20,00',allergens:[4,7,10],hasFish:true},
+      {name_es:'Dolce Vita',name_en:'Dolce Vita',name_sv:'Dolce Vita',desc_es:'Lechuga gourmet, rúcula, jamón ibérico, melón, tomates cherry, parmesano, higos confitados, huevo rallado, albahaca fresca, miel de caña',desc_en:'Gourmet lettuce, arugula, Iberian ham, melon, cherry tomatoes, parmesan, candied figs, grated egg, fresh basil, cane honey',desc_sv:'Gourmetsallad, ruccola, iberisk skinka, melon, körsbärstomater, parmesan, kanderade fikon, riven ägg, färsk basilika, rörsocker',price:'18,00',allergens:[1,3,7,8],hasMeat:true},
+      {name_es:'Cobb',name_en:'Cobb',name_sv:'Cobb',desc_es:'200 g pechuga de pollo, bacon, gorgonzola, huevo de codorniz, aguacate, tomates cherry, cebolla roja, lechuga, aliño de mostaza en grano',desc_en:'200 g chicken breast, bacon, gorgonzola, quail egg, avocado, cherry tomatoes, red onion, lettuce, wholegrain mustard dressing',desc_sv:'200 g kycklingbröst, bacon, gorgonzola, vaktelägg, avokado, körsbärstomater, rödlök, sallad, fullkornssenapsdressing',price:'18,00',allergens:[1,3,7,10],hasMeat:true},
+      {name_es:'Yesterday\'s',name_en:'Yesterday\'s',name_sv:'Yesterday\'s',desc_es:'Lechuga gourmet, rúcula, zanahoria, maíz, cebolla roja, espárragos blancos, aguacate, huevo rallado, mozzarella de búfala, salmón, anchoas, remolacha',desc_en:'Gourmet lettuce, arugula, carrot, corn, red onion, white asparagus, avocado, grated egg, buffalo mozzarella, salmon, anchovies, beetroot',desc_sv:'Gourmetsallad, ruccola, morot, majs, rödlök, vit sparris, avokado, riven ägg, buffelsmozzarella, lax, ansjovis, rödbeta',price:'20,00',allergens:[7,8,12],hasFish:true},
+      {name_es:'Caprese',name_en:'Caprese',name_sv:'Caprese',desc_es:'Tomate laminado, mozzarella de búfala, albahaca fresca, melocotón flambeado, aliño de albahaca',desc_en:'Sliced tomato, buffalo mozzarella, fresh basil, flambéed peach, basil dressing',desc_sv:'Skivad tomat, buffelsmozzarella, färsk basilika, flamberad persika, basilikadressing',price:'14,00',allergens:[7],veg:true},
+      {name_es:'Magani',name_en:'Magani',name_sv:'Magani',desc_es:'Lechuga gourmet, tomate, pepino, maíz, zanahoria, huevo, atún, cebolla, espárragos blancos, aceitunas',desc_en:'Gourmet lettuce, tomato, cucumber, corn, carrot, egg, tuna, onion, white asparagus, olives',desc_sv:'Gourmetsallad, tomat, gurka, majs, morot, ägg, tonfisk, lök, vit sparris, oliver',price:'16,00',allergens:[3,4],hasFish:true},
+    ]
+  },
+  {
+    id:'meats', name_es:'Carnes', name_en:'Meats', name_sv:'Kött',
+    items:[
+      {name_es:'Solomillo de ternera con foie gras (250 g)',name_en:'Beef tenderloin with foie gras (250 g)',name_sv:'Oxfilé med foie gras (250 g)',desc_es:'',desc_en:'',desc_sv:'',price:'34,00',allergens:[7],hasMeat:true},
+      {name_es:'Solomillo de ternera (250 g)',name_en:'Beef tenderloin (250 g)',name_sv:'Oxfilé (250 g)',desc_es:'',desc_en:'',desc_sv:'',price:'32,00',allergens:[],hasMeat:true},
+      {name_es:'Entrecot local a la plancha (350 g)',name_en:'Grilled local entrecôte (350 g)',name_sv:'Grillad lokal entrecôte (350 g)',desc_es:'',desc_en:'',desc_sv:'',price:'28,00',allergens:[],hasMeat:true},
+      {name_es:'Entrecot local laminado (para 2 personas)',name_en:'Sliced local entrecôte (for 2 people)',name_sv:'Skivad lokal entrecôte (för 2 personer)',desc_es:'500 g de ternera a la plancha. Guarnición: pregunte al camarero',desc_en:'500 g grilled beef. Garnish: ask your waiter',desc_sv:'500 g grillat nötkött. Tillbehör: fråga servitören',price:'40,00',allergens:[],hasMeat:true},
+      {name_es:'Chateaubriand (600 g – mín. 2 personas)',name_en:'Chateaubriand (600 g – min. 2 people)',name_sv:'Chateaubriand (600 g – min. 2 personer)',desc_es:'',desc_en:'',desc_sv:'',price:'58,00',allergens:[],hasMeat:true},
+      {name_es:'T-Bone Steak (650 g)',name_en:'T-Bone Steak (650 g)',name_sv:'T-Bone Steak (650 g)',desc_es:'',desc_en:'',desc_sv:'',price:'36,00',allergens:[],hasMeat:true},
+      {name_es:'Magret de pato (400 g)',name_en:'Duck magret (400 g)',name_sv:'Andbröst magret (400 g)',desc_es:'',desc_en:'',desc_sv:'',price:'25,00',allergens:[12],hasMeat:true},
+      {name_es:'Confit de pato',name_en:'Duck confit',name_sv:'Andconfit',desc_es:'',desc_en:'',desc_sv:'',price:'20,00',allergens:[7,12],hasMeat:true},
+      {name_es:'Chuletillas de cordero a la plancha (500 g)',name_en:'Grilled lamb chops (500 g)',name_sv:'Grillade lammkotletter (500 g)',desc_es:'',desc_en:'',desc_sv:'',price:'26,00',allergens:[],hasMeat:true},
+      {name_es:'Secreto ibérico (100% bellota) (250 g)',name_en:'Iberian pork "secreto" (100% acorn-fed) (250 g)',name_sv:'Iberisk fläsk "secreto" (100% ekollonsmatat) (250 g)',desc_es:'',desc_en:'',desc_sv:'',price:'26,00',allergens:[],hasMeat:true},
+      {name_es:'Secreto ibérico a baja temperatura (250 g)',name_en:'Slow-cooked iberian pork "secreto" (250 g)',name_sv:'Lågtemperaturtillagad iberisk fläsk "secreto" (250 g)',desc_es:'Con romero, servido con parmentier de patata',desc_en:'Rosemary-infused, served with potato parmentier',desc_sv:'Med rosmarin, serveras med potatisparmentier',price:'25,00',allergens:[],hasMeat:true},
+      {name_es:'Solomillo ibérico (100% bellota)',name_en:'Iberian pork tenderloin (100% acorn-fed)',name_sv:'Iberisk fläskfilé (100% ekollonsmatat)',desc_es:'',desc_en:'',desc_sv:'',price:'24,00',allergens:[],hasMeat:true},
+      {name_es:'Costillas de cerdo ibérico BBQ (800 g)',name_en:'BBQ iberian pork ribs (800 g)',name_sv:'BBQ iberiska fläskkotletter (800 g)',desc_es:'',desc_en:'',desc_sv:'',price:'22,00',allergens:[1,12],hasMeat:true},
+      {name_es:'Codillo de cerdo al horno (600 g)',name_en:'Oven-braised pork knuckle (600 g)',name_sv:'Ugnsbakad fläsklägg (600 g)',desc_es:'',desc_en:'',desc_sv:'',price:'22,00',allergens:[12],hasMeat:true},
+      {name_es:'Pechuga de pollo a la plancha (250 g)',name_en:'Grilled chicken breast (250 g)',name_sv:'Grillat kycklingbröst (250 g)',desc_es:'',desc_en:'',desc_sv:'',price:'16,00',allergens:[],hasMeat:true},
+      {name_es:'Curry de pollo estilo Magani',name_en:'Chicken curry (Magani style)',name_sv:'Kycklingcurry (Magani-stil)',desc_es:'',desc_en:'',desc_sv:'',price:'20,00',allergens:[6,7],hasMeat:true},
+      {name_es:'Pollo a la milanesa',name_en:'Chicken milanese',name_sv:'Kyckling milanese',desc_es:'Pollo empanado crujiente con salsa pomodoro y mozzarella gratinada',desc_en:'Crispy breaded chicken with pomodoro sauce and gratinated mozzarella',desc_sv:'Krispig panerad kyckling med pomodorosås och gratinerad mozzarella',price:'18,00',allergens:[1,3,7],hasMeat:true},
+      {name_es:'Cordon bleu',name_en:'Cordon bleu',name_sv:'Cordon bleu',desc_es:'',desc_en:'',desc_sv:'',price:'20,00',allergens:[1,3,7],hasMeat:true},
+      {name_es:'Tabla Magani',name_en:'Magani platter',name_sv:'Magani-bricka',desc_es:'Pechuga de pollo, lomo de cerdo fresco, salchicha blanca y roja, cerdo marinado, huevo, patatas fritas y ensalada',desc_en:'Chicken breast, fresh pork loin, white and red sausages, marinated pork, egg, fries, and fresh salad',desc_sv:'Kycklingbröst, färskt fläskloin, vita och röda korvar, marinerat fläsk, ägg, pommes frites och färsk sallad',price:'18,00',allergens:[1,3,7,12],hasMeat:true},
+      {name_es:'Cochinillo de Castilla y León (4 personas)',name_en:'Castilla y León suckling pig (4 people)',name_sv:'Spädgris från Castilla y León (4 personer)',desc_es:'Trinchado y emplatado en la mesa · PRE-ORDER',desc_en:'Carved and plated at the table · PRE-ORDER',desc_sv:'Skärs och serveras vid bordet · FÖRBESTÄLL',price:'P.S.M.',allergens:[],hasMeat:true,preorder:true},
+      {name_es:'Wagyu (Origen: Japón) A5 Grade (200-250 g)',name_en:'Wagyu (Origin: Japan) A5 Grade (200-250 g)',name_sv:'Wagyu (Ursprung: Japan) A5 Grade (200-250 g)',desc_es:'Preparado y presentado en la mesa · PRE-ORDER',desc_en:'Prepared and presented tableside · PRE-ORDER',desc_sv:'Tillagas och presenteras vid bordet · FÖRBESTÄLL',price:'260,00',allergens:[],hasMeat:true,preorder:true},
+    ],
+    sauces_es:'Salsas: Pimienta, Bearnesa, Holandesa, Setas, BBQ, Teriyaki, Roquefort, Dijon, Café de París',
+    sauces_en:'Sauces: Pepper, Béarnaise, Hollandaise, Mushroom, BBQ, Teriyaki, Roquefort, Dijon, Café de Paris',
+    sauces_sv:'Såser: Peppar, Béarnaise, Hollandaise, Svamp, BBQ, Teriyaki, Roquefort, Dijon, Café de Paris'
+  },
+  {
+    id:'fish', name_es:'Pescados', name_en:'Fish', name_sv:'Fisk',
+    items:[
+      {name_es:'Lenguado con salsa de cava o meunière',name_en:'Sole with cava or meunière sauce',name_sv:'Sjötunga med cava- eller meunièresås',desc_es:'',desc_en:'',desc_sv:'',price:'24,00',allergens:[4,7,12],hasFish:true},
+      {name_es:'Lomo de salmón a la plancha (250 g)',name_en:'Grilled salmon loin (250 g)',name_sv:'Grillad laxloin (250 g)',desc_es:'',desc_en:'',desc_sv:'',price:'22,00',allergens:[4],hasFish:true},
+      {name_es:'Salmón en hojaldre (250 g) (aprox. 30 min.)',name_en:'Salmon in puff pastry (250 g) (approx. 30 min.)',name_sv:'Lax i smördeg (250 g) (ca. 30 min.)',desc_es:'',desc_en:'',desc_sv:'',price:'25,00',allergens:[1,4],hasFish:true,preorder:true},
+      {name_es:'Gratén de bacalao con aioli muselina',name_en:'Cod gratin with aioli mousseline',name_sv:'Torskgratäng med aioli mousseline',desc_es:'',desc_en:'',desc_sv:'',price:'22,00',allergens:[3,4,7],hasFish:true},
+      {name_es:'Pez espada a la plancha (350 g)',name_en:'Grilled swordfish (350 g)',name_sv:'Grillad svärdfisk (350 g)',desc_es:'',desc_en:'',desc_sv:'',price:'20,00',allergens:[4],hasFish:true},
+      {name_es:'Lomo de atún rojo (250 g) (Balfegó)',name_en:'Bluefin tuna loin (250 g) (Balfegó)',name_sv:'Blåfenad tonfiskloin (250 g) (Balfegó)',desc_es:'',desc_en:'',desc_sv:'',price:'36,00',allergens:[],hasFish:true},
+      {name_es:'Dorada a la espalda (300 g)',name_en:'Grilled sea bream fillets "a la espalda" (300 g)',name_sv:'Grillad havsbraxen "a la espalda" (300 g)',desc_es:'',desc_en:'',desc_sv:'',price:'24,00',allergens:[4,7,12],hasFish:true},
+      {name_es:'Filete de rodaballo (receta del chef)',name_en:'Turbot fillet (chef\'s recipe)',name_sv:'Piggvarsfilé (kockens recept)',desc_es:'',desc_en:'',desc_sv:'',price:'25,00',allergens:[4,7],hasFish:true},
+      {name_es:'Lubina a la espalda (300 g)',name_en:'Grilled sea bass fillets "a la espalda" (300 g)',name_sv:'Grillad havsabborre "a la espalda" (300 g)',desc_es:'',desc_en:'',desc_sv:'',price:'24,00',allergens:[4],hasFish:true},
+      {name_es:'Corvina a la espalda (300 g)',name_en:'Grilled corvina "a la espalda" (300 g)',name_sv:'Grillad corvina "a la espalda" (300 g)',desc_es:'',desc_en:'',desc_sv:'',price:'24,00',allergens:[],hasFish:true},
+      {name_es:'Gambas al curry thai con piña y arroz',name_en:'Thai curry prawns with pineapple and rice',name_sv:'Thairäkor med ananas och ris',desc_es:'',desc_en:'',desc_sv:'',price:'22,00',allergens:[2,6],hasFish:true},
+      {name_es:'Fish and chips (280 g)',name_en:'Fish and chips (280 g)',name_sv:'Fish and chips (280 g)',desc_es:'Ensalada fresca, guisantes, patatas y salsa tártara',desc_en:'Fresh salad, peas, potatoes and tartar sauce',desc_sv:'Färsk sallad, ärtor, potatis och tartarsås',price:'16,00',allergens:[1,3,4],hasFish:true},
+      {name_es:'Lubina a la sal (1,2 kg) · PRE-ORDER',name_en:'Salt-baked sea bass (1.2 kg) · PRE-ORDER',name_sv:'Saltbakad havsabborre (1,2 kg) · FÖRBESTÄLL',desc_es:'Preparada y presentada en la mesa',desc_en:'Prepared and presented tableside',desc_sv:'Tillagas och presenteras vid bordet',price:'38,00',allergens:[4],hasFish:true,preorder:true},
+      {name_es:'Zarzuela de pescado y marisco (por persona) · PRE-ORDER',name_en:'Fish and seafood zarzuela (per person) · PRE-ORDER',name_sv:'Fisk- och skaldjurszarzuela (per person) · FÖRBESTÄLL',desc_es:'Rape, merluza, gambón, almejas, mejillones, calamar',desc_en:'Monkfish, hake, king prawns, clams, mussels, baby squid',desc_sv:'Marulk, kummel, kungräkor, musslor, blåmusslor, minibläckfisk',price:'25,00',allergens:[4],hasFish:true,preorder:true},
+      {name_es:'Parrillada de marisco (2-4 personas) · PRE-ORDER',name_en:'Grilled seafood platter (2-4 people) · PRE-ORDER',name_sv:'Grillad skaldjursbricka (2-4 personer) · FÖRBESTÄLL',desc_es:'Langosta, cigala, gamba, gambón, carabinero, navaja, vieira, pulpo, mejillones',desc_en:'Lobster, scampi, prawns, king prawns, carabineros, razor clams, scallops, octopus, mussels',desc_sv:'Hummer, scampi, räkor, kungräkor, karabineros, rakmusslor, kammusslor, bläckfisk, blåmusslor',price:'180,00',allergens:[],hasFish:true,preorder:true},
+      {name_es:'Parrillada de pescado y marisco (2-4 personas) · PRE-ORDER',name_en:'Grilled fish and seafood platter (2-4 people) · PRE-ORDER',name_sv:'Grillad fisk och skaldjursbricka (2-4 personer) · FÖRBESTÄLL',desc_es:'Salmón, pez espada, sepia, gambón, cigala, vieira, mejillones, almejas, navaja',desc_en:'Salmon, swordfish, cuttlefish, king prawns, scampi, scallops, mussels, clams, razor clams',desc_sv:'Lax, svärdfisk, kolja, kungräkor, scampi, kammusslor, blåmusslor, musslor, rakmusslor',price:'90,00',allergens:[],hasFish:true,preorder:true},
+    ],
+    sauces_es:'Salsas: Tártara, Bearnesa, Holandesa, Naranja, Mayo-Wasabi, Azafrán',
+    sauces_en:'Sauces: Tartar, Béarnaise, Hollandaise, Orange, Mayo-Wasabi, Saffron',
+    sauces_sv:'Såser: Tartare, Béarnaise, Hollandaise, Apelsin, Maj-Wasabi, Saffran',
+    note_es:'NOTA: Nuestro marisco fresco ha sido previamente congelado durante 48 horas a -24°C.',
+    note_en:'NOTE: Our fresh seafood has been previously frozen for 48 hours at -24°C.',
+    note_sv:'OBS: Våra färska skaldjur har tidigare frysts i 48 timmar vid -24°C.'
+  },
+  {
+    id:'paella', name_es:'Paella y Arroz', name_en:'Paella & Rice', name_sv:'Paella & Ris',
+    note_es:'Precio por persona · Mínimo 2 personas · Tiempo aprox. 20-30 min.',
+    note_en:'Price per person · Minimum 2 people · Approx. time 20-30 min.',
+    note_sv:'Pris per person · Minst 2 personer · Ca. 20-30 min.',
+    items:[
+      {name_es:'Paella de marisco',name_en:'Seafood paella',name_sv:'Skaldjurspaella',desc_es:'Gambón, cigala, mejillones, almejas, atún, calamar',desc_en:'King prawns, scampi, mussels, clams, tuna, squid',desc_sv:'Kungräkor, scampi, blåmusslor, musslor, tonfisk, bläckfisk',price:'15,00',allergens:[2,4,9,14],hasFish:true},
+      {name_es:'Arroz del señoret',name_en:'"Señoret" rice',name_sv:'"Señoret" ris',desc_es:'Atún, gambón, calamarín, sepia, mejillones',desc_en:'Tuna, king prawns, baby squid, cuttlefish, mussels',desc_sv:'Tonfisk, kungräkor, minibläckfisk, kolja, blåmusslor',price:'16,00',allergens:[2,4,9,14],hasFish:true},
+      {name_es:'Arroz cremoso con langosta y cigala',name_en:'Creamy rice with lobster and scampi',name_sv:'Krämigt ris med hummer och scampi',desc_es:'1 langosta, cigala, gambón, atún, almejas, mejillones, calamarín',desc_en:'1 lobster, scampi, king prawns, tuna, clams, mussels, baby squid',desc_sv:'1 hummer, scampi, kungräkor, tonfisk, musslor, blåmusslor, minibläckfisk',price:'25,00',allergens:[2,4,9,14],hasFish:true},
+      {name_es:'Paella mixta',name_en:'Mixed paella',name_sv:'Blandad paella',desc_es:'Gambón, mejillones, atún, pollo, cerdo, pimiento rojo, setas',desc_en:'King prawns, mussels, tuna, chicken, pork, red pepper, mushroom',desc_sv:'Kungräkor, blåmusslor, tonfisk, kyckling, fläsk, röd paprika, svamp',price:'15,00',allergens:[2,4,9,14],hasFish:true,hasMeat:true},
+      {name_es:'Paella especial de la casa (PRE-ORDER)',name_en:'House special paella (PRE-ORDER)',name_sv:'Husets specialpaella (FÖRBESTÄLL)',desc_es:'Arroz cremoso con carabineros, atún y gambas',desc_en:'Creamy rice with carabineros, tuna and prawns',desc_sv:'Krämigt ris med karabineros, tonfisk och räkor',price:'28,00',allergens:[4],hasFish:true,preorder:true},
+      {name_es:'Paella de pollo y verduras',name_en:'Chicken and vegetable paella',name_sv:'Kyckling- och grönsakspaella',desc_es:'Pollo de corral, pimientos, setas, alcachofas, guisantes',desc_en:'Free-range chicken, peppers, mushrooms, artichokes, peas',desc_sv:'Frigående kyckling, paprika, svamp, kronärtskockor, ärtor',price:'15,00',allergens:[9],hasMeat:true},
+      {name_es:'Fideuá de marisco',name_en:'Seafood fideuá',name_sv:'Skaldjursfideuá',desc_es:'Gambón, cigala, mejillones, almejas, atún, calamar',desc_en:'King prawns, scampi, mussels, clams, tuna, squid',desc_sv:'Kungräkor, scampi, blåmusslor, musslor, tonfisk, bläckfisk',price:'15,00',allergens:[1,2,4,9,14],hasFish:true},
+      {name_es:'Paella de verduras',name_en:'Vegetable paella',name_sv:'Grönsakspaella',desc_es:'Pimientos, calabacín, berenjena, setas, alcachofas, guisantes',desc_en:'Peppers, zucchini, aubergine, mushrooms, artichokes, peas',desc_sv:'Paprika, zucchini, aubergine, svamp, kronärtskockor, ärtor',price:'14,00',allergens:[9],veg:true},
+      {name_es:'Paella valenciana',name_en:'Valencian paella',name_sv:'Valenciansk paella',desc_es:'Pollo de corral, conejo, judías verdes, garrofón, alcachofas, caracoles',desc_en:'Free-range chicken, rabbit, green beans, garrofón beans, artichokes, snails',desc_sv:'Frigående kyckling, kanin, gröna bönor, garrofónbönor, kronärtskockor, sniglar',price:'16,00',allergens:[2,4,9,14],hasMeat:true},
+      {name_es:'Arroz de secreto ibérico',name_en:'Iberian pork "secreto" rice',name_sv:'Iberisk fläsk "secreto" ris',desc_es:'Setas, boletus, alcachofas, ajo tierno, secreto ibérico, aroma PX',desc_en:'Mushrooms, boletus, artichokes, spring garlic, iberian pork, PX aroma',desc_sv:'Svamp, boletus, kronärtskockor, vårklök, iberisk fläsk, PX-arom',price:'18,00',allergens:[12],hasMeat:true},
+      {name_es:'Risotto mar y montaña',name_en:'Surf and turf risotto',name_sv:'Hav och berg risotto',desc_es:'Setas, boletus, gambas, crujiente de jamón ibérico',desc_en:'Mushrooms, boletus, prawns, iberian ham crisps',desc_sv:'Svamp, boletus, räkor, krispig iberisk skinka',price:'18,00',allergens:[7,12],hasFish:true,hasMeat:true},
+      {name_es:'Risotto de la casa',name_en:'House risotto',name_sv:'Husets risotto',desc_es:'Setas, boletus, confit de pato, parmesano, tostadas de ajo',desc_en:'Mushrooms, boletus, duck confit, parmesan, garlic toasts',desc_sv:'Svamp, boletus, andconfit, parmesan, vitlöksrostat bröd',price:'18,00',allergens:[7],hasMeat:true},
+    ]
+  },
+  {
+    id:'pizza', name_es:'Pizza', name_en:'Pizza', name_sv:'Pizza',
+    items:[
+      {name_es:'Margarita',name_en:'Margarita',name_sv:'Margarita',desc_es:'Pomodoro, mozzarella',desc_en:'Pomodoro, mozzarella',desc_sv:'Pomodoro, mozzarella',price:'12,50',allergens:[1,7],veg:true},
+      {name_es:'Hawaii',name_en:'Hawaii',name_sv:'Hawaii',desc_es:'Pomodoro, mozzarella, piña, jamón cocido',desc_en:'Pomodoro, mozzarella, pineapple, cooked ham',desc_sv:'Pomodoro, mozzarella, ananas, kokt skinka',price:'14,00',allergens:[1,7],hasMeat:true},
+      {name_es:'Magani',name_en:'Magani',name_sv:'Magani',desc_es:'Pomodoro, mozzarella, tomate cherry, tomate confitado, jamón serrano, rúcula, parmesano, crema balsámica',desc_en:'Pomodoro, mozzarella, cherry tomato, confit tomato, serrano ham, arugula, parmesan, balsamic cream',desc_sv:'Pomodoro, mozzarella, körsbärstomat, kokt tomat, serranonskinka, ruccola, parmesan, balsamicocreme',price:'16,00',allergens:[1,7,12],hasMeat:true},
+      {name_es:'4 estaciones',name_en:'4 seasons',name_sv:'4 årstider',desc_es:'Crema de calabaza, mozzarella, setas, jamón cocido, gambas, alcachofa confitada',desc_en:'Pumpkin cream, mozzarella, mushrooms, cooked ham, prawns, confit artichoke',desc_sv:'Pumpagrädde, mozzarella, svamp, kokt skinka, räkor, kokt kronärtskocka',price:'16,00',allergens:[1,7],hasFish:true,hasMeat:true},
+      {name_es:'Napolitana',name_en:'Neapolitan',name_sv:'Neapolitansk',desc_es:'Pomodoro, mozzarella, anchoas, tomate cherry, pecorino romano, albahaca',desc_en:'Pomodoro, mozzarella, anchovies, cherry tomato, pecorino romano, basil',desc_sv:'Pomodoro, mozzarella, ansjovis, körsbärstomat, pecorino romano, basilika',price:'15,00',allergens:[1,4,7],hasFish:true},
+      {name_es:'Fruto di mare',name_en:'Fruto di mare',name_sv:'Fruto di mare',desc_es:'Pomodoro, mozzarella, atún, cebolla, gambas, mejillones',desc_en:'Pomodoro, mozzarella, tuna, onion, prawns, mussels',desc_sv:'Pomodoro, mozzarella, tonfisk, lök, räkor, blåmusslor',price:'16,00',allergens:[1,4,7,14],hasFish:true},
+      {name_es:'Diablo',name_en:'Diablo',name_sv:'Diablo',desc_es:'Pomodoro, mozzarella, salami, chiles, bacon, guindilla',desc_en:'Pomodoro, mozzarella, salami, chili peppers, bacon, spicy chili',desc_sv:'Pomodoro, mozzarella, salami, chili, bacon, stark chili',price:'15,00',allergens:[1,7,12],hasMeat:true},
+      {name_es:'6 quesos',name_en:'6 cheeses',name_sv:'6 ostar',desc_es:'Pomodoro, mozzarella, gorgonzola, cheddar, taleggio, havarti, parmesano',desc_en:'Pomodoro, mozzarella, gorgonzola, cheddar, taleggio, havarti, parmesan',desc_sv:'Pomodoro, mozzarella, gorgonzola, cheddar, taleggio, havarti, parmesan',price:'16,00',allergens:[1,7],veg:true},
+      {name_es:'Pepperoni',name_en:'Pepperoni',name_sv:'Pepperoni',desc_es:'Pomodoro, mozzarella, jamón cocido, pepperoni, setas',desc_en:'Pomodoro, mozzarella, cooked ham, pepperoni, mushrooms',desc_sv:'Pomodoro, mozzarella, kokt skinka, pepperoni, svamp',price:'15,00',allergens:[1,7],hasMeat:true},
+      {name_es:'Verduras',name_en:'Verduras',name_sv:'Grönsaker',desc_es:'Crema de alcachofa, calabacín, berenjena, cebolla, setas, rúcula, tomate cherry, alcachofa confitada',desc_en:'Artichoke cream, zucchini, aubergine, onion, mushrooms, arugula, cherry tomato, confit artichoke',desc_sv:'Kronärtskockscreme, zucchini, aubergine, lök, svamp, ruccola, körsbärstomat, kokt kronärtskocka',price:'16,00',allergens:[1,12],veg:true},
+      {name_es:'Barbacoa',name_en:'BBQ',name_sv:'BBQ',desc_es:'Pomodoro, mozzarella, cerdo ibérico desmechado, setas, bacon, cebolla roja, tiras de pollo, salsa BBQ',desc_en:'Pomodoro, mozzarella, iberian pulled pork, mushrooms, bacon, red onion, chicken strips, BBQ sauce',desc_sv:'Pomodoro, mozzarella, iberisk pulled pork, svamp, bacon, rödlök, kycklingstrip, BBQ-sås',price:'16,00',allergens:[1,7,12],hasMeat:true},
+      {name_es:'Altamonte',name_en:'Altamonte',name_sv:'Altamonte',desc_es:'Pomodoro, mozzarella, setas portobello, tomate confitado, burrata con emulsión de albahaca, mortadela siciliana, ralladura de pistacho, lascas de pecorino romano',desc_en:'Pomodoro, mozzarella, portobello mushrooms, confit tomato, burrata with basil oil emulsion, sicilian mortadella, pistachio zest, pecorino romano flakes',desc_sv:'Pomodoro, mozzarella, portobellosvamp, kokt tomat, burrata med basilikaolja, siciliansk mortadella, pistaschriv, pecorino romanoflagor',price:'18,00',allergens:[1,7,8,12],hasMeat:true},
+      {name_es:'Capricciosa',name_en:'Capricciosa',name_sv:'Capricciosa',desc_es:'Salsa de calabaza, mozzarella, jamón de parma, alcachofa, setas, huevo, alcachofa confitada',desc_en:'Pumpkin sauce, mozzarella, parma ham, artichoke, mushrooms, egg, confit artichoke',desc_sv:'Pumpa­sås, mozzarella, parmaskinka, kronärtskocka, svamp, ägg, kokt kronärtskocka',price:'16,00',allergens:[1,3,7,12],hasMeat:true},
+      {name_es:'Freyja',name_en:'Freyja',name_sv:'Freyja',desc_es:'Crema de calabaza, mozzarella, gambón, salmón ahumado, ralladura de pistacho',desc_en:'Pumpkin cream, mozzarella, king prawns, smoked salmon, pistachio zest',desc_sv:'Pumpagrädde, mozzarella, kungräkor, rökt lax, pistaschrivning',price:'18,00',allergens:[1,7,4,12],hasFish:true},
+    ]
+  },
+  {
+    id:'pasta', name_es:'Pasta', name_en:'Pasta', name_sv:'Pasta',
+    items:[
+      {name_es:'Espaguetis boloñesa / carbonara',name_en:'Spaghetti bolognese / carbonara',name_sv:'Spagetti bolognese / carbonara',desc_es:'',desc_en:'',desc_sv:'',price:'14,00',allergens:[1,7,9],hasMeat:true},
+      {name_es:'Espaguetis de marisco',name_en:'Seafood spaghetti',name_sv:'Skaldjursspagetti',desc_es:'Gambas, mejillones, calamar, almejas',desc_en:'Prawns, mussels, squid, clams',desc_sv:'Räkor, blåmusslor, bläckfisk, musslor',price:'16,00',allergens:[1,2,4],hasFish:true},
+      {name_es:'Espaguetis negros con angulas, gambas y parmesano',name_en:'Black spaghetti with baby eels, prawns and parmesan',name_sv:'Svart spagetti med ålar, räkor och parmesan',desc_es:'',desc_en:'',desc_sv:'',price:'16,00',allergens:[1,7],hasFish:true},
+      {name_es:'Tagliatelle alfredo con pollo y setas',name_en:'Tagliatelle alfredo with chicken and mushrooms',name_sv:'Tagliatelle alfredo med kyckling och svamp',desc_es:'',desc_en:'',desc_sv:'',price:'16,00',allergens:[1,7],hasMeat:true},
+      {name_es:'Fettuccine verdi (receta de la nonna)',name_en:'Fettuccine verdi (nonna\'s recipe)',name_sv:'Fettuccine verdi (nonnans recept)',desc_es:'Gambas, alcachofa, huevo poché, setas, ajo, perejil',desc_en:'Prawns, artichoke, poached egg, mushrooms, garlic, parsley',desc_sv:'Räkor, kronärtskocka, pocherat ägg, svamp, vitlök, persilja',price:'16,00',allergens:[1,2,3,7],hasFish:true},
+      {name_es:'Fettuccine «arrogante»',name_en:'Fettuccine "arrogante"',name_sv:'Fettuccine "arrogante"',desc_es:'Costillas cocinadas a baja temperatura en su jugo, porcini y boletus',desc_en:'Slow-cooked ribs in their own juice, porcini and boletus',desc_sv:'Lågtemperaturlagade revben i eget sky, porcini och boletus',price:'28,00',allergens:[1,7],hasMeat:true},
+      {name_es:'Ravioli de gorgonzola',name_en:'Gorgonzola ravioli',name_sv:'Gorgonzolaviolini',desc_es:'',desc_en:'',desc_sv:'',price:'15,00',allergens:[1,7],veg:true},
+      {name_es:'Ravioli de cinco quesos',name_en:'Five cheese ravioli',name_sv:'Femostviolini',desc_es:'',desc_en:'',desc_sv:'',price:'15,00',allergens:[1,7],veg:true},
+      {name_es:'Panzotti de calabaza',name_en:'Pumpkin panzotti',name_sv:'Pumpapanzotti',desc_es:'Ricotta, nueces, amaretto, salsa ligera de calabaza',desc_en:'Ricotta cheese, walnuts, amaretto, light pumpkin sauce',desc_sv:'Ricotta, valnötter, amaretto, lätt pumpa­sås',price:'16,00',allergens:[1,7,12],veg:true},
+      {name_es:'Gnocchi con salmón, gambas, espinacas y piñones',name_en:'Gnocchi with salmon, prawns, spinach and pine nuts',name_sv:'Gnocchi med lax, räkor, spenat och pinjenötter',desc_es:'',desc_en:'',desc_sv:'',price:'16,00',allergens:[1,4],hasFish:true},
+      {name_es:'Tortellini de carne (Babushka pelmeni)',name_en:'Meat tortellini (Babushka pelmeni)',name_sv:'Köttortellini (Babushka pelmeni)',desc_es:'Ensalada fresca con aroma de eneldo y nata agria',desc_en:'Fresh salad with dill aroma and sour cream',desc_sv:'Färsk sallad med dillarom och gräddfil',price:'16,00',allergens:[1,3,7],hasMeat:true},
+      {name_es:'Fagottini di Trevi',name_en:'Fagottini di Trevi',name_sv:'Fagottini di Trevi',desc_es:'Salsa de pera flambeada, nueces, parmesano, albahaca',desc_en:'Flambéed pear sauce, walnuts, parmesan, basil',desc_sv:'Flamberad päron­sås, valnötter, parmesan, basilika',price:'16,00',allergens:[1,7,8],veg:true},
+      {name_es:'Tortellini de salmón',name_en:'Salmon tortellini',name_sv:'Laxtortellini',desc_es:'Salsa ligera de aguacate, ricotta, albahaca',desc_en:'Light avocado sauce, ricotta cheese, basil',desc_sv:'Lätt avokadosås, ricotta, basilika',price:'16,00',allergens:[1,4,7,12],hasFish:true},
+      {name_es:'Rigatoni al forno',name_en:'Rigatoni al forno',name_sv:'Rigatoni al forno',desc_es:'Chorizo, setas portobello, bechamel, parmesano, pomodoro, mozzarella, al horno',desc_en:'Chorizo, portobello mushrooms, béchamel, parmesan, pomodoro sauce, mozzarella, oven-baked',desc_sv:'Chorizo, portobellosvamp, bechamel, parmesan, pomodorosås, mozzarella, ugnslagad',price:'16,00',allergens:[1,7,12],hasMeat:true},
+      {name_es:'Lasaña boloñesa (400 gr.)',name_en:'Lasagna bolognese (400 gr.)',name_sv:'Lasagne bolognese (400 gr.)',desc_es:'',desc_en:'',desc_sv:'',price:'16,00',allergens:[1,3,7,9],hasMeat:true},
+      {name_es:'Musaka',name_en:'Moussaka',name_sv:'Moussaka',desc_es:'',desc_en:'',desc_sv:'',price:'16,00',allergens:[1,7,12],hasMeat:true},
+    ]
+  },
+  {
+    id:'burgers', name_es:'Hamburguesas', name_en:'Burgers', name_sv:'Hamburgare',
+    sauces_es:'Salsas: Honey-Mustard, Korean, Smoked Cheddar, Texana, Americana, Mayo, Jack Daniel\'s, Samurai, Hannibal, Pirata, Magani, etc.',
+    sauces_en:'Sauces: Honey-Mustard, Korean, Smoked Cheddar, Texan, American, Mayo, Jack Daniel\'s, Samurai, Hannibal, Pirata, Magani, etc.',
+    sauces_sv:'Såser: Honung-Senap, Korean, Rökt Cheddar, Texan, Amerikansk, Maj, Jack Daniel\'s, Samurai, Hannibal, Pirata, Magani, m.fl.',
+    items:[
+      {name_es:'De pollo',name_en:'From chicken',name_sv:'Kyckling',desc_es:'150 g pollo crujiente, queso cheddar, tomate, lechuga',desc_en:'150 g crispy chicken, cheddar cheese, tomato, lettuce',desc_sv:'150 g krispig kyckling, cheddarost, tomat, sallad',price:'12,00',allergens:[1,7,12],hasMeat:true},
+      {name_es:'Hawaiian',name_en:'Hawaiian',name_sv:'Hawaiian',desc_es:'140 g pollo crujiente, piña a la plancha, queso cheddar, tomate, lechuga',desc_en:'140 g crispy chicken, grilled pineapple, cheddar cheese, tomato, lettuce',desc_sv:'140 g krispig kyckling, grillad ananas, cheddarost, tomat, sallad',price:'13,00',allergens:[1,7,12],hasMeat:true},
+      {name_es:'Hamburgo (clásica)',name_en:'Hamburgo (classic)',name_sv:'Hamburgo (klassisk)',desc_es:'200 g ternera, queso cheddar, tomate, cebolla roja, lechuga',desc_en:'200 g beef, cheddar cheese, tomato, red onion, lettuce',desc_sv:'200 g nötkött, cheddarost, tomat, rödlök, sallad',price:'15,00',allergens:[1,7,12],hasMeat:true},
+      {name_es:'Americana',name_en:'American',name_sv:'Amerikansk',desc_es:'200 g ternera, bacon de haya ahumado, queso cheddar, cebolla roja, tomate, lechuga, salsa americana',desc_en:'200 g beef, beechwood-smoked bacon, cheddar cheese, red onion, tomato, lettuce, american sauce',desc_sv:'200 g nötkött, bokarökt bacon, cheddarost, rödlök, tomat, sallad, amerikansk sås',price:'17,00',allergens:[1,7,12],hasMeat:true},
+      {name_es:'Magani',name_en:'Magani',name_sv:'Magani',desc_es:'200 g ternera, queso cheddar, huevo frito, cebolla roja, tomate, lechuga',desc_en:'200 g beef, cheddar cheese, fried egg, red onion, tomato, lettuce',desc_sv:'200 g nötkött, cheddarost, stekt ägg, rödlök, tomat, sallad',price:'18,00',allergens:[1,7,12],hasMeat:true},
+      {name_es:'Texana',name_en:'Texan',name_sv:'Texansk',desc_es:'200 g ternera, bacon, queso americano, cebolla caramelizada, lechuga, tomate, salsa texana, nachos',desc_en:'200 g beef, bacon, american cheese, caramelized onion, lettuce, tomato, texan sauce, nachos',desc_sv:'200 g nötkött, bacon, amerikansk ost, karamelliserad lök, sallad, tomat, texansk sås, nachos',price:'20,00',allergens:[1,3,7,12],hasMeat:true},
+      {name_es:'Homer Simpson',name_en:'Homer Simpson',name_sv:'Homer Simpson',desc_es:'200 g ternera madurada (25+ días), cebolla roja, bacon, queso cheddar, aros de cebolla, mermelada de bacon',desc_en:'200 g dry-aged beef (25+ days), red onion, bacon, cheddar cheese, onion rings, bacon jam',desc_sv:'200 g mognadslagrat nötkött (25+ dagar), rödlök, bacon, cheddarost, lökringar, baconsylt',price:'22,00',allergens:[1,7,12],hasMeat:true},
+      {name_es:'The Black Pearl',name_en:'The Black Pearl',name_sv:'The Black Pearl',desc_es:'200 g ternera Angus, bacon de haya ahumado, queso Monterey Jack, aros de cebolla, salsa Korean',desc_en:'200 g angus beef, beechwood-smoked bacon, monterey jack cheese, onion rings, korean sauce',desc_sv:'200 g Angus nötkött, bokarökt bacon, Monterey Jack-ost, lökringar, koreansk sås',price:'25,00',allergens:[],hasMeat:true},
+      {name_es:'Bart Simpson',name_en:'Bart Simpson',name_sv:'Bart Simpson',desc_es:'200 g ternera, bacon, aguacate, doble cheddar, cebolla, tomate confitado',desc_en:'200 g beef, bacon, avocado, double cheddar cheese, onion, confit tomato',desc_sv:'200 g nötkött, bacon, avokado, dubbel cheddar, lök, kokt tomat',price:'19,00',allergens:[1,3,7,12],hasMeat:true},
+      {name_es:'La Bella',name_en:'La Bella',name_sv:'La Bella',desc_es:'200 g ternera, gofre relleno de cheddar y crujiente de lotus, bacon, cebolla roja, tomate confitado',desc_en:'200 g beef, waffle stuffed with cheddar cheese and lotus crunch, bacon, red onion, confit tomato',desc_sv:'200 g nötkött, våffla fylld med cheddar och lotuscrunch, bacon, rödlök, kokt tomat',price:'24,00',allergens:[1,3,7],hasMeat:true},
+      {name_es:'La Bestia',name_en:'La Bestia',name_sv:'La Bestia',desc_es:'400 g ternera, doble cheddar, doble bacon, tomate, aros de cebolla, mermelada de rosa roja',desc_en:'400 g beef, double cheddar cheese, double bacon, tomato, onion rings, red rose jam',desc_sv:'400 g nötkött, dubbel cheddar, dubbelt bacon, tomat, lökringar, rödros­sylt',price:'26,00',allergens:[1,3,7],hasMeat:true},
+      {name_es:'Yesterday\'s',name_en:'Yesterday\'s',name_sv:'Yesterday\'s',desc_es:'200 g ternera retinto, queso havarti, bacon, setas a la plancha, cebolla, tomate (opcional: huevo frito)',desc_en:'200 g retinto beef, havarti cheese, bacon, grilled mushrooms, onion, tomato (optional: fried egg)',desc_sv:'200 g retinto nötkött, havarti­ost, bacon, grillad svamp, lök, tomat (valfritt: stekt ägg)',price:'24,00',allergens:[3,7],hasMeat:true},
+    ]
+  },
+  {
+    id:'suggestions', name_es:'Sugerencias', name_en:'Suggestions', name_sv:'Förslag',
+    subsections:[
+      {
+        label_es:'Montaditos', label_en:'Montaditos', label_sv:'Montaditos',
+        items:[
+          {name_es:'Montadito de solomillo',name_en:'Beef tenderloin montadito',name_sv:'Oxfilé montadito',desc_es:'Foie, cebolla caramelizada, pan cristal',desc_en:'Foie, caramelized onion, crystal bread',desc_sv:'Foie, karamelliserad lök, kristallbröd',price:'14,00',allergens:[],hasMeat:true},
+          {name_es:'Montadito Magani',name_en:'Magani montadito',name_sv:'Magani montadito',desc_es:'Solomillo de ternera, pan con mantequilla café de París, servido con verduras',desc_en:'Beef tenderloin, bread with café de paris butter, served with vegetables',desc_sv:'Oxfilé, bröd med café de paris-smör, serveras med grönsaker',price:'16,00',allergens:[],hasMeat:true},
+          {name_es:'Montadito de jamón ibérico',name_en:'Iberian ham montadito',name_sv:'Iberisk skinka montadito',desc_es:'Jamón ibérico, pan con tomate, pan cristal',desc_en:'Iberian ham, tomato bread, crystal bread',desc_sv:'Iberisk skinka, tomatbröd, kristallbröd',price:'9,00',allergens:[],hasMeat:true},
+          {name_es:'Montadito de secreto ibérico',name_en:'Iberian pork "secreto" montadito',name_sv:'Iberisk fläsk "secreto" montadito',desc_es:'Secreto ibérico cocinado a baja temperatura, cebolla caramelizada, pimientos del piquillo, pan cristal',desc_en:'Slow-cooked iberian pork, caramelized onion, piquillo peppers, crystal bread',desc_sv:'Lågtemperaturlagad iberisk fläsk, karamelliserad lök, piquillopaprika, kristallbröd',price:'12,00',allergens:[],hasMeat:true},
+          {name_es:'Montadito del mar',name_en:'Sea montadito',name_sv:'Havs­montadito',desc_es:'Atún rojo, mayo-wasabi, pan cristal',desc_en:'Bluefin tuna, mayo-wasabi, crystal bread',desc_sv:'Blåfenad tonfisk, maj-wasabi, kristallbröd',price:'14,00',allergens:[],hasFish:true},
+        ]
+      },
+      {
+        label_es:'Para compartir', label_en:'To Share', label_sv:'Att dela',
+        items:[
+          {name_es:'Huevos rotos con solomillo',name_en:'Broken eggs with beef tenderloin',name_sv:'Krossade ägg med oxfilé',desc_es:'200 g solomillo de ternera, virutas de foie, huevos',desc_en:'200 g beef tenderloin, foie shavings, eggs',desc_sv:'200 g oxfilé, foie-spån, ägg',price:'28,00',allergens:[],hasMeat:true},
+          {name_es:'Huevos rotos con cerdo ibérico',name_en:'Broken eggs with iberian pork',name_sv:'Krossade ägg med iberisk fläsk',desc_es:'Cerdo ibérico, tomate confitado, cebolla roja, huevos',desc_en:'Iberian pork, confit tomato, red onion, eggs',desc_sv:'Iberisk fläsk, kokt tomat, rödlök, ägg',price:'24,00',allergens:[],hasMeat:true},
+          {name_es:'Huevos rotos con carabineros',name_en:'Broken eggs with carabineros',name_sv:'Krossade ägg med karabineros',desc_es:'Carabineros, gambas, angulas, huevos',desc_en:'Carabineros, prawns, baby eels, eggs',desc_sv:'Karabineros, räkor, miniålar, ägg',price:'28,00',allergens:[],hasFish:true},
+          {name_es:'Huevos rotos con jamón ibérico',name_en:'Broken eggs with iberian ham',name_sv:'Krossade ägg med iberisk skinka',desc_es:'Jamón ibérico, tomate confitado, pimientos de padrón, lascas de parmesano',desc_en:'Iberian ham, confit tomato, padrón peppers, parmesan flakes',desc_sv:'Iberisk skinka, kokt tomat, padrón­paprika, parmesanflagor',price:'24,00',allergens:[],hasMeat:true},
+          {name_es:'Gambas flambeadas (San Lúcar de Barrameda)',name_en:'Flambéed prawns (San Lúcar de Barrameda)',name_sv:'Flamberade räkor (San Lúcar de Barrameda)',desc_es:'Huevo, gambas, ajo laminado, guindilla, flambeado con vino barbadillo',desc_en:'Egg, prawns, sliced garlic, chili, flambéed with barbadillo wine',desc_sv:'Ägg, räkor, skivad vitlök, chili, flamberad med barbadillovin',price:'22,00',allergens:[],hasFish:true},
+          {name_es:'Gambas flambeadas con Johnnie Walker (Et. Negra)',name_en:'Flambéed prawns with Johnnie Walker (Black Label)',name_sv:'Flamberade räkor med Johnnie Walker (Black Label)',desc_es:'Servidas con tostadas de ajo y perejil',desc_en:'Served with garlic and parsley toasts',desc_sv:'Serveras med vitlöks- och persiljetoast',price:'22,00',allergens:[],hasFish:true},
+          {name_es:'Embutidos ibéricos (Sánchez Montero, Salamanca)',name_en:'Iberian cold cuts (Sánchez Montero, Salamanca)',name_sv:'Iberiska charkuterier (Sánchez Montero, Salamanca)',desc_es:'Jamón, salchichón, chorizo, lomo, lascas de parmesano',desc_en:'Ham, salchichón, chorizo, loin, parmesan flakes',desc_sv:'Skinka, salchichón, chorizo, loin, parmesanflagor',price:'30,00',allergens:[],hasMeat:true},
+          {name_es:'Selección de croquetas (6 und.)',name_en:'Croquettes selection (6 pcs.)',name_sv:'Urval av kroketter (6 st.)',desc_es:'Gamba roja, boletus y parmesano, jamón ibérico',desc_en:'Red prawn, boletus and parmesan, iberian ham',desc_sv:'Röd räka, boletus och parmesan, iberisk skinka',price:'14,00',allergens:[],hasFish:true,hasMeat:true},
+          {name_es:'Patatas Noah',name_en:'Patatas Noah',name_sv:'Patatas Noah',desc_es:'Salsa secreta del chef',desc_en:'Chef\'s secret sauce',desc_sv:'Kockens hemliga sås',price:'10,00',allergens:[],veg:true},
+        ]
+      }
+    ]
+  },
+  {
+    id:'desserts', name_es:'Postres', name_en:'Desserts', name_sv:'Desserter',
+    items:[
+      {name_es:'Tarta Ferrero Rocher',name_en:'Ferrero rocher cake',name_sv:'Ferrero Rocher-tårta',desc_es:'',desc_en:'',desc_sv:'',price:'9,00',allergens:[7,8],veg:true},
+      {name_es:'Tarta Kinder',name_en:'Kinder cake',name_sv:'Kinder-tårta',desc_es:'',desc_en:'',desc_sv:'',price:'9,00',allergens:[7,8],veg:true},
+      {name_es:'Tarta Lotus',name_en:'Lotus cheesecake',name_sv:'Lotus-cheesecake',desc_es:'',desc_en:'',desc_sv:'',price:'9,00',allergens:[7,8],veg:true},
+      {name_es:'Tarta de pistacho y chocolate blanco',name_en:'Pistachio and white chocolate cake',name_sv:'Pistasch- och vit chokladtårta',desc_es:'',desc_en:'',desc_sv:'',price:'9,00',allergens:[7,8],veg:true},
+      {name_es:'Tarta Red Velvet',name_en:'Red velvet cake',name_sv:'Red Velvet-tårta',desc_es:'',desc_en:'',desc_sv:'',price:'9,00',allergens:[7,8],veg:true},
+      {name_es:'Strudel de manzana con helado',name_en:'Apple strudel with ice cream',name_sv:'Äppelstrudel med glass',desc_es:'',desc_en:'',desc_sv:'',price:'9,00',allergens:[1,3,7],veg:true},
+      {name_es:'Tarta Baileys',name_en:'Baileys cake',name_sv:'Baileys-tårta',desc_es:'',desc_en:'',desc_sv:'',price:'9,00',allergens:[7,8],veg:true},
+      {name_es:'Tiramisú',name_en:'Tiramisú',name_sv:'Tiramisú',desc_es:'',desc_en:'',desc_sv:'',price:'9,00',allergens:[1,3,7],veg:true},
+      {name_es:'Tarta de queso con topping a elegir',name_en:'Cheesecake with topping of your choice',name_sv:'Cheesecake med valfri topping',desc_es:'Mermelada casera, crema de pistacho, Oreo, Kinder, Dulce de leche, Nutella, Miel, Kit-kat',desc_en:'Homemade jam, pistachio cream, Oreo, Kinder, Dulce de leche, Nutella, Honey, Kit-kat',desc_sv:'Hemgjord sylt, pistaschcreme, Oreo, Kinder, Dulce de leche, Nutella, Honung, Kit-kat',price:'9,00',allergens:[7,8],veg:true},
+      {name_es:'Tarta de zanahoria',name_en:'Carrot cake',name_sv:'Morotskaka',desc_es:'',desc_en:'',desc_sv:'',price:'9,00',allergens:[1,3,7,8],veg:true},
+      {name_es:'Kunefe (postre turco)',name_en:'Kunefe (Turkish dessert)',name_sv:'Kunefe (turkisk dessert)',desc_es:'',desc_en:'',desc_sv:'',price:'9,00',allergens:[7],veg:true},
+      {name_es:'Brownie / Coulant con helado',name_en:'Brownie / Coulant with ice cream',name_sv:'Brownie / Coulant med glass',desc_es:'',desc_en:'',desc_sv:'',price:'8,00',allergens:[1,3,7,8],veg:true},
+      {name_es:'Profiteroles con crema y chocolate',name_en:'Profiteroles with cream and chocolate',name_sv:'Profiteroler med grädde och choklad',desc_es:'',desc_en:'',desc_sv:'',price:'7,00',allergens:[1,3],veg:true},
+      {name_es:'Pudding de pan',name_en:'Bread pudding',name_sv:'Brödpudding',desc_es:'',desc_en:'',desc_sv:'',price:'7,00',allergens:[1,3,7],veg:true},
+      {name_es:'Flan de huevo',name_en:'Egg custard flan',name_sv:'Äggflan',desc_es:'',desc_en:'',desc_sv:'',price:'5,00',allergens:[3,7],veg:true},
+      {name_es:'Tarta de la casa (pregunte al camarero)',name_en:'House cake (ask your waiter)',name_sv:'Husets tårta (fråga servitören)',desc_es:'',desc_en:'',desc_sv:'',price:'7,00',allergens:[3,7,8],veg:true},
+      {name_es:'Crema pastelera',name_en:'Custard cream',name_sv:'Vaniljkräm',desc_es:'',desc_en:'',desc_sv:'',price:'5,00',allergens:[3,7],veg:true},
+      {name_es:'Crema catalana',name_en:'Catalan cream',name_sv:'Catalonsk kräm',desc_es:'',desc_en:'',desc_sv:'',price:'5,00',allergens:[7],veg:true},
+      {name_es:'Arroz con leche',name_en:'Rice pudding',name_sv:'Risgrynsgröt',desc_es:'',desc_en:'',desc_sv:'',price:'6,00',allergens:[7],veg:true},
+      {name_es:'Tarta de la abuela',name_en:'Grandma\'s cake',name_sv:'Mormors tårta',desc_es:'',desc_en:'',desc_sv:'',price:'7,00',allergens:[3,7],veg:true},
+    ]
+  },
+  {
+    id:'kids', name_es:'Menú Infantil', name_en:'Kids Menu', name_sv:'Barnmeny',
+    note_es:'Precio: 10,00€ · Para menores de 12 años · Incluye agua o refresco + helado (chocolate, vainilla, fresa o nata)',
+    note_en:'Price: €10.00 · Up to 12 years old · Includes water or soda + ice cream (chocolate, vanilla, strawberry or cream)',
+    note_sv:'Pris: 10,00€ · Upp till 12 år · Inkluderar vatten eller läsk + glass (choklad, vanilj, jordgubb eller grädde)',
+    items:[
+      {name_es:'Nuggets de pollo con patatas',name_en:'Chicken nuggets with potatoes',name_sv:'Kycklingnuggets med potatis',desc_es:'',desc_en:'',desc_sv:'',price:'10,00',allergens:[1],hasMeat:true},
+      {name_es:'Espaguetis boloñesa / Tomate y atún',name_en:'Spaghetti bolognese / Tomato and Tuna',name_sv:'Spagetti bolognese / Tomat och tonfisk',desc_es:'',desc_en:'',desc_sv:'',price:'10,00',allergens:[1,4,7,9],hasMeat:true,hasFish:true},
+      {name_es:'Hamburguesa de ternera con patatas',name_en:'Beef burger with potatoes',name_sv:'Nötköttsburgare med potatis',desc_es:'',desc_en:'',desc_sv:'',price:'10,00',allergens:[1,7],hasMeat:true},
+      {name_es:'Hamburguesa de pollo con patatas',name_en:'Chicken burger with fries',name_sv:'Kycklingburgare med pommes',desc_es:'',desc_en:'',desc_sv:'',price:'10,00',allergens:[1,7],hasMeat:true},
+      {name_es:'Pechuga de pollo a la plancha con patatas',name_en:'Grilled chicken breast with potatoes',name_sv:'Grillat kycklingbröst med potatis',desc_es:'',desc_en:'',desc_sv:'',price:'10,00',allergens:[],hasMeat:true},
+      {name_es:'Salchichas Frankfurt con patatas',name_en:'Frankfurt sausages with potatoes',name_sv:'Frankfurterkorv med potatis',desc_es:'',desc_en:'',desc_sv:'',price:'10,00',allergens:[1],hasMeat:true},
+      {name_es:'Pizza Margarita',name_en:'Margherita pizza',name_sv:'Margaritapizza',desc_es:'',desc_en:'',desc_sv:'',price:'10,00',allergens:[1,7,12],veg:true},
+    ]
+  }
+];
+
+let currentSection = 'starters';
+const lang = () => LANG.current;
+
+function setLang(l) {
+  LANG.current = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${l}')"]`).classList.add('active');
+  renderAll();
+}
+
+function setFilter(f) {
+  FILTER.current = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`#f-${f}`).classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  const f = FILTER.current;
+  document.querySelectorAll('.menu-item').forEach(item => {
+    const name = item.dataset.name.toLowerCase();
+    const veg = item.dataset.veg === '1';
+    const fish = item.dataset.fish === '1';
+    const meat = item.dataset.meat === '1';
+    let show = true;
+    if (f === 'veg' && !veg) show = false;
+    if (f === 'nofish' && fish) show = false;
+    if (f === 'nomeat' && meat) show = false;
+    item.classList.toggle('item-hidden', !show);
+  });
+  document.querySelectorAll('.menu-section.visible .empty-state').forEach(e => e.remove());
+  const vis = document.querySelector('.menu-section.visible');
+  if (vis) {
+    const shown = vis.querySelectorAll('.menu-item:not(.item-hidden)');
+    if (shown.length === 0) {
+      const em = document.createElement('div');
+      em.className = 'empty-state';
+      em.textContent = ui[lang()].emptyState;
+      vis.appendChild(em);
+    }
+  }
+}
+
+function getAllergenName(num) { return allergenNames[lang()][num] || num; }
+
+function renderAllergenTag(num) {
+  return `<span class="allergen-tag"><span class="num">${num}</span>${getAllergenName(num)}</span>`;
+}
+
+function getName(item) {
+  return item['name_' + lang()] || item.name_es;
+}
+function getDesc(item) {
+  return item['desc_' + lang()] || item.desc_es || '';
+}
+
+function renderItem(item) {
+  const name = getName(item);
+  const desc = getDesc(item);
+  const allergenTags = (item.allergens||[]).map(a => renderAllergenTag(a)).join('');
+  const vegTag = item.veg ? `<span class="special-tag">— ${ui[lang()].veg}</span>` : '';
+  const preTag = item.preorder ? `<span class="preorder-tag">${ui[lang()].preorder}</span>` : '';
+  const tagsHtml = allergenTags || vegTag || preTag
+    ? `<div class="item-tags">${allergenTags}${vegTag}${preTag}</div>` : '';
+
+  return `<div class="menu-item"
+    data-name="${name.toLowerCase()}"
+    data-veg="${item.veg?'1':'0'}"
+    data-fish="${item.hasFish?'1':'0'}"
+    data-meat="${item.hasMeat?'1':'0'}">
+    <div class="item-main">
+      <span class="item-name">${name}</span>
+      <span class="item-dots"></span>
+      <span class="item-price">${item.price.toString().split(',')[0].split('/').map(p=>p.trim()).join(' / ')}</span>
+    </div>
+    ${desc ? `<div class="item-desc">${desc}</div>` : ''}
+    ${tagsHtml}
+  </div>`;
+}
+
+function getLabel(sub) {
+  return sub['label_' + lang()] || sub.label_es;
+}
+
+function renderSection(s) {
+  const sname = s['name_' + lang()] || s.name_es;
+  let html = `<div class="section-header">
+    <div class="section-title">${sname}</div>
+  </div>`;
+
+  if (s.note_es && s.id !== 'paella') {
+    const noteText = s['note_' + lang()] || s.note_es;
+    html += `<div class="notice-box">${noteText}</div>`;
+  }
+
+  if (s.subsections) {
+    s.subsections.forEach(sub => {
+      html += `<div class="subsection-label">${getLabel(sub)}</div>`;
+      sub.items.forEach(item => { html += renderItem(item); });
+    });
+  } else if (s.items) {
+    s.items.forEach(item => { html += renderItem(item); });
+  }
+
+  if (s.sauces_es) {
+    const sauces = s['sauces_' + lang()] || s.sauces_es;
+    html += `<div class="sauces-line"><span>${sauces}</span></div>`;
+  }
+
+  if (s.id === 'paella') {
+    const noteText = s['note_' + lang()] || s.note_es;
+    html += `<div class="price-note">${noteText}</div>`;
+  }
+
+  return html;
+}
+
+function renderNav() {
+  const nav = document.getElementById('nav-tabs');
+  nav.innerHTML = sections.map(s =>
+    `<button class="nav-tab${s.id===currentSection?' active':''}" onclick="switchSection('${s.id}')">
+      ${s['name_' + lang()] || s.name_es}
+    </button>`
+  ).join('');
+}
+
+function renderLegend() {
+  document.getElementById('leg-title').textContent = ui[lang()].legTitle;
+  const grid = document.getElementById('legend-grid');
+  grid.innerHTML = Object.entries(allergenNames[lang()]).map(([num, name]) =>
+    `<div class="legend-item"><div class="legend-badge">${num}</div>${name}</div>`
+  ).join('');
+}
+
+function renderFilters() {
+  document.getElementById('filter-label').textContent = ui[lang()].filterLabel;
+  document.getElementById('f-all').textContent = ui[lang()].fAll;
+  document.getElementById('f-veg').textContent = ui[lang()].fVeg;
+  document.getElementById('f-nofish').textContent = ui[lang()].fNofish;
+  document.getElementById('f-nomeat').textContent = ui[lang()].fNomeat;
+  document.getElementById('footer-text').textContent = ui[lang()].footerText;
+
+  // Info & reviews section i18n
+  const u = ui[lang()];
+  const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+  set('i18n-reviews-title', u.reviewsTitle);
+  set('i18n-reviews-total', u.reviewsTotal);
+  set('i18n-find-us', u.findUs);
+  set('i18n-address', u.address);
+  set('i18n-phone', u.phone);
+  set('i18n-reviews-label', u.reviewsLabel);
+  set('i18n-hours-label', u.hoursLabel);
+  set('i18n-location-title', u.locationTitle);
+  set('i18n-directions', u.directions);
+  u.days.forEach((name, i) => { set('hd-' + i, name); });
+}
+
+function switchSection(id) {
+  currentSection = id;
+  renderNav();
+  document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('visible'));
+  const target = document.getElementById('sec-'+id);
+  if (target) target.classList.add('visible');
+  applyFilters();
+  window.scrollTo({top: document.querySelector('.nav-tabs').offsetTop - 10, behavior: 'smooth'});
+}
+
+function renderAll() {
+  renderLegend();
+  renderFilters();
+  renderNav();
+  const content = document.getElementById('menu-content');
+  content.innerHTML = sections.map(s =>
+    `<div class="menu-section${s.id===currentSection?' visible':''}" id="sec-${s.id}">
+      ${renderSection(s)}
+    </div>`
+  ).join('');
+  applyFilters();
+  renderReviews();
+}
+
+renderAll();
+</script>
+</body>
+</html>
